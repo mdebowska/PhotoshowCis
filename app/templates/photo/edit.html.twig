@@ -1,0 +1,46 @@
+{%  extends 'base.html.twig' %}
+{% form_theme form with ['bootstrap_3_horizontal_layout.html.twig', 'form/form_errors.html.twig'] %}
+{% block title %}{{ 'photo_edit'|trans }}{% endblock %}
+
+{% block content %}
+    <article class="center-blok container">
+        <div class="container">
+            <header>
+                <div class="col-md-3">
+                    <a href="{{ url('profile_view', {'id':photo.user_id}) }}" title="{{ 'label.go_to_profile'|trans }}" class="btn btn-default">
+                        <span class="fa fa-mail-reply" aria-hidden="true"></span>
+                        <i class="glyphicon glyphicon-arrow-left"></i>
+                        {{ 'label.go_to_profile'|trans }}
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <h1 class="text-center">{{ 'photo_edit'|trans}}</h1>
+                </div>
+            </header>
+        </div>
+
+
+
+
+        {% if photo|length %}
+            <div class="container">
+                <div class="col-md-3">
+                    <img src="{{ asset('uploads/photos/' ~ photo.source) }}"  alt="{{ photo.title }}">
+                </div>
+                <div class="col-md-6">
+                    {{ form_start(form, { method: 'post', action: url('photo_edit', {'id': photo.id}) }) }}
+                    {{ form_widget(form) }}
+                    <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-success" />
+                    {{ form_end(form) }}
+                </div>
+                <div class="col-md-3 last-row-item">
+                    <a href="{{ url('tag_add') }}" title="{{ 'label.add_new_tag'|trans }}" class="btn btn-info">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        {{ 'label.add_new_tag'|trans }}
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </article>
+{% endblock %}
+

@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+{% form_theme form with ['bootstrap_3_horizontal_layout.html.twig', 'form/form_errors.html.twig'] %}
+{% block title %}{{ 'profile_edit'|trans }}{% endblock %}
+
+{% block content %}
+    <article class="center-blok container">
+        <div class="container">
+            <header>
+                <div class="col-md-3">
+                    {#jesli admin to przycisk powrotu do listy osob#}
+                    <a href="{{ global.request.headers.get('referer') }}" title="{{ 'label.back'|trans }}" class="btn btn-default">
+                        <span class="fa fa-mail-reply" aria-hidden="true"></span>
+                        <i class="glyphicon glyphicon-arrow-left"></i>
+                        {{ 'label.back'|trans }}
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <h1 class="text-center">{{ 'profile_edit'|trans}}</h1>
+                </div>
+            </header>
+        </div>
+
+
+
+        {% if profile|length %}
+            <div class="container">
+                <div class="col-md-6">
+                    {#<p>{{ 'login'|trans }}: {{profile.login}}</p>#}
+                    {#<p>{{ 'mail'|trans }}: {{profile.mail}}</p>#}
+                    {#<p>{{ 'name'|trans }}: {{profile.name}}</p>#}
+                    {#<p>{{ 'surname'|trans }}: {{profile.surname}}</p>#}
+
+                    {{ form_start(form, { method: 'post', action: url('profile_edit', {'id': profile.id}) }) }}
+                    {{ form_widget(form) }}
+                    <p>{{ 'sure'|trans }}</p>
+                    <input type="submit" value="{{ 'action.edit'|trans }}" class="btn btn-success" />
+                    {{ form_end(form) }}
+                </div>
+                <div class="col-md-6 half-widget">
+
+                    {{ form_start(form_data, { method: 'post', action: url('profile_edit', {'id': profile.id}) }) }}
+                    {{ form_widget(form_data) }}
+                    <p>{{ 'sure'|trans }}</p>
+                    <input type="submit" value="{{ 'action.edit'|trans }}" class="btn btn-success not-widget" />
+                    {{ form_end(form_data) }}
+                </div>
+            </div>
+        {% endif %}
+    </article>
+{% endblock %}

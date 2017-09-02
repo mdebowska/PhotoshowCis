@@ -1,0 +1,33 @@
+{#stworzyc formularz#}
+{%  extends 'base.html.twig' %}
+
+{% block title %}{{ 'add_new_tag'|trans }}{% endblock %}
+
+{% block content %}
+    <article class="center-blok container">
+        <div class="container">
+            <header>
+                <div class="col-md-3">
+                        <a href="{{ global.request.headers.get('referer') }}" title="{{ 'label.back'|trans }}" class="btn btn-default">
+			<span class="fa fa-mail-reply" aria-hidden="true"></span>
+                        <i class="glyphicon glyphicon-arrow-left"></i>
+                        {{ 'label.back'|trans }}
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <h1 class="text-center">{{ 'add_new_tag'|trans}}</h1>
+                </div>
+            </header>
+        </div>
+
+            <div class="container">
+                <div class="col-md-6">
+                    {{ form_start(form, { method: 'post', action: url('tag_add') }) }}
+                    {{ form_widget(form) }}
+                    <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-success" />
+                    {{ form_end(form) }}
+                </div>
+            </div>
+    </article>
+{% endblock %}
+

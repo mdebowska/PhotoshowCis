@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{#All photos from gallery of specyfic author#}
+{% block title %}
+    PhotoShow - {{ 'name' }}s gallery {#name of author#}
+{% endblock %}
+{% block content %}
+    <article>
+        <header>
+            <h1>
+                {{ name|default('name') }}s photos{#Name of author#}
+            </h1>
+        </header>
+        {% if photos|length %}
+            <ul >
+                {% for row in photos %}
+                    <li>
+                        <img src="/images/{{row.url}}" >
+                        <p>{{ row.title }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </article>
+{% endblock %}

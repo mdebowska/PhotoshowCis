@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+{% form_theme form with ['bootstrap_3_horizontal_layout.html.twig', 'form/form_errors.html.twig'] %}
+{% block title %}{{ 'tag_delete'|trans }}{% endblock %}
+
+{% block content %}
+    <article class="center-blok container">
+        <div class="container">
+            <header>
+                <div class="col-md-3">
+                    <a href="{{ url('tag_index') }}" title="{{ 'label.back_to_list_of_tags'|trans }}" class="btn btn-default">
+                        <span class="fa fa-mail-reply" aria-hidden="true"></span>
+                        <i class="glyphicon glyphicon-arrow-left"></i>
+                        {{ 'label.back_to'|trans }}{{ 'tags'|trans }}
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <h1 class="text-center">{{ 'tag_delete'|trans}}</h1>
+                </div>
+            </header>
+        </div>
+
+
+
+        {% if tag|length %}
+            <div class="container">
+                <div class="col-md-6">
+                    <p>{{ 'name'|trans }}: {{tag.name}}</p>
+
+                    <p>{{ 'sure'|trans }}</p>
+                    {{ form_start(form, { method: 'post', action: url('tag_delete', {'id': tag.id}) }) }}
+                    {{ form_widget(form) }}
+                    <input type="submit" value="{{ 'action.delete'|trans }}" class="btn btn-danger" />
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        {% endif %}
+    </article>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    PhotoShow - {{'new_photos'|trans}}
+{% endblock %}
+{% block content %}
+    <main>
+        <article class="center-blok container">
+            <header>
+                <h1 class="text-center">
+                    {{'new_photos'|trans}}
+                </h1>
+            </header>
+            {% block gallery %}
+                {% include 'photo/gallery.html.twig' %}
+            {% endblock %}
+            {#<div class="center-block col-md-12">#}
+            {#{% if photos|length %}#}
+                {#<ul >#}
+                    {#{% for row in photos %}#}
+                        {#<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">#}
+                            {#<a href="#" class="center-block">#}
+                                {#<figure class="text-on-figure-bottom">#}
+                                    {#<img src="/images/{{row.url}}" alt="{{ row.title }}" class="text-on-figure-bottom">#}
+                                    {#<figcaption class="text-on-figure-bottom half-black-background">By: {{ row.authorId }}</figcaption>#}
+                                {#</figure>#}
+                            {#</a>#}
+                        {#</div>#}
+                    {#{% endfor %}#}
+                {#</ul>#}
+            {#{% endif %}#}
+            {#</div>#}
+        </article>
+    </main>
+{% endblock %}

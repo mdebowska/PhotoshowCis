@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    PhotoShow - Found photos
+{% endblock %}
+{% block content %}
+    <main>
+        <article class="center-blok container">
+            <header>
+                <h1 class="text-center">
+                    Found photos
+                </h1>
+            </header>
+            {% block gallery %}
+                {% include 'photo/gallery.html.twig' %}
+            {% endblock %}
+        </article>
+    </main>
+{% endblock %}

@@ -1,0 +1,66 @@
+{#CRUD tylko dla admina#}
+{% extends 'base.html.twig' %}
+{#All profiles in webside#}
+{% block title %}
+    PhotoShow - All profiles
+{% endblock %}
+{% block content %}
+    <main>
+        <article class="center-blok container">
+            <div class="container">
+                <header>
+                    <div class="row">
+                        <div class="col-md-3"> {#w sumie to dodawania tu nie potrzeba, nie?#}
+                            {#<a href="{{ url('photo_add', {'id':profile.id}) }}" class="btn btn-success btn-sm"> #}{#dla braku paginacji: href="./add"#}
+                                {#<i class="glyphicon glyphicon-plus"></i>#}
+                                {#{{ 'add'|trans }}#}
+                            {#</a>#}
+                        </div>
+                        <div class="col-md-6">
+                            <h1 class="text-center">{{ 'all_profiles'|trans }}</h1>
+                        </div>
+                    </div>
+                </header>
+            </div>
+            <div class="center-block container">
+                {% if profiles|length %}
+                    <ul >
+                        <div class="container">
+                            {% include 'default/_paginator.html.twig' with {
+                            paginator: profiles,
+                            route_name: 'profile_index_paginated',
+                            } %}
+                        </div>
+                        {% for row in profiles.data %}
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <a href="{{ url('profile_view', {'id':row.id}) }}">{{ row.login }}</a>
+                                    </div>
+                                {#if admin#}
+                                    <div class="col-md-2">
+                                        {% if is_granted('IS_AUTHENTICATED_FULLY') and (row.id==logged_user['id'] or is_granted('ROLE_ADMIN')) %} {#logged_user['role']=='admin')#}
+                                        <div class="col-md-5 remove-padding">
+                                            <a href="{{ url('profile_edit', {'id':row.id}) }}" class="btn btn-primary btn-xs">
+                                                <i class="glyphicon glyphicon-cog"></i>
+                                                {{ 'edit'|trans }}
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 remove-padding">
+                                            <a href="{{ url('profile_delete', {'id':row.id}) }}" class="btn btn-danger btn-xs">
+                                                <i class="glyphicon glyphicon-trash"></i>
+                                                {{ 'delete'|trans }}
+                                            </a>
+                                        </div>
+                                            {% endif %}
+                                    </div>
+                                </div>
+                            {#endif#}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </article>
+    </main>
+{% endblock %}

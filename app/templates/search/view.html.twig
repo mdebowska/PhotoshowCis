@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{#One photo from gallery#}
+{% block title %}
+    PhotoShow - gallery {{ '%title%' }}
+{% endblock %}
+{% block content %}
+    <article>
+        <header>
+            <h1>
+                {{ title|default('title') }}{#title of album#}
+            </h1>
+        </header>
+        {% if photo|length %}
+            <div>
+                <img src="/images/{{photo.sciezka}}" >
+                    <p>{{ photo.opis }}</p>
+            </div>
+        {% endif %}
+    </article>
+{% endblock %}

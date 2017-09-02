@@ -1,0 +1,68 @@
+{% block gallery %}
+<div class="center-block col-md-12">
+    {% if photos.data|length %}
+        {% if id is defined %}
+            <div class="container">
+            {% include 'default/_paginator_view.html.twig' with {
+            paginator: photos,
+            route_name: 'photo_view_paginated',
+            } %}
+            </div>
+        {% else %}
+            <div class="container">
+            {% include 'default/_paginator.html.twig' with {
+            paginator: photos,
+            route_name: 'photo_index_paginated',
+            } %}
+            </div>
+        {% endif %}
+        </div>
+            <ul >
+                {% for row in photos.data %}
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 col-photo">
+                        <a href="{{ url('photo_view', {'id':row.id}) }}" title="{{ 'photo'|trans }} {{ row.id }}">
+
+                            <figure class="text-on-figure-bottom">
+                                <img src="{{ asset('uploads/photos/' ~ row.source) }}" alt="{{ row.title }}" class="text-on-figure-bottom">
+                                <figcaption class="text-on-figure-bottom half-black-background row remove-margin">
+                                   {% if is_granted('IS_AUTHENTICATED_FULLY') and (row.user_id==logged_user['id'] or logged_user['role']=='admin') %}
+                                        {#//jesli jestes zalogowany i.. to jesteś ty#}
+                                       <div class="col-xs-6 remove-padding">
+                                       <div class="buttons remove-padding">
+
+                                           <a href="{{ url('photo_edit', {'id':row.id}) }}" title="{{ 'edit'|trans }} {{ 'photo'|trans }} {{ row.id }}" class="btn btn-primary btn-xs">
+                                               <i class="glyphicon glyphicon-cog"></i>
+                                               {{ 'edit'|trans }}
+                                           </a>
+                                       </div>
+                                       <div class="buttons remove-padding">
+                                           <a href="{{ url('photo_delete', {'id':row.id}) }}" title="{{ 'delete'|trans }} {{ 'photo'|trans }} {{ row.id }}" class="btn btn-danger btn-xs">
+                                               <i class="glyphicon glyphicon-trash"></i>
+                                               {{ 'delete'|trans }}
+                                           </a>
+                                       </div>
+                                       </div>
+                                   {% endif %}
+                                    {% if logged_user['id'] is not defined or row.user_id!=logged_user['id'] %}
+                                       <div class="remove-padding last-row-item">
+                                           {{ 'by:'|trans }}<a href="{{  url('profile_view', {'id':row.user_id}) }}" title="{{ row.login }}"  class="author">
+                                               {% if row.login|length<9 %}
+                                                   {{ row.login }}
+                                               {% else %}
+                                                   {{ row.login|slice(0, 7)}}{{ '...' }}
+                                               {% endif %}</a>
+                                       </div>
+                                   {% endif %}
+                                </figcaption>
+                            </figure>
+                        </a>
+                    </div>
+                {% endfor %}
+            </ul>
+        {% else %}
+        <div>
+            {{ 'none_photos_found'|trans }}
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

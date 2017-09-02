@@ -1,0 +1,50 @@
+{#CSS!#}
+{% extends 'base.html.twig' %}
+{% block title %}
+    PhotoShow - welcom in main page!
+{% endblock %}
+{% block content %}
+    <main>
+        {#<img src="/images/homepage.jpg" class="background">#}
+        {#<img src="https://static.pexels.com/photos/408518/pexels-photo-408518.jpeg" class="homepage">#}
+        <article class="center-blok container">
+            <header>
+                <h1 class="text-center">
+                    {#{ 'welcome'|trans }#}
+                    {{ 'welcome'|trans }}<span class="logo"> PhotoShow!</span>
+                </h1>
+            </header>
+            <hr>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {#<div class="center-block col-md-3 content-md-padding clear-float half-black-background text-center">#}
+                    {#<a href="{{ url('profile_view', {'id':logged_user.id}) }}">{{ 'go_to_your_profile'|trans }}</a>#}
+
+                {#</div>#}
+                <header>
+                    <h2 class="text-center">
+                        {{ 'new_photos'|trans }}
+                    </h2>
+                </header>
+                {% include 'photo/gallery.html.twig' %}
+            {% else %}
+                <div class="col-lg-8 col-md-10 col-sm-12 center-block text-center homepage clear-float">
+                    <div class="col-xs-4">
+                        <a href="{{ url('home_registration') }}" class="btn btn-default"><i class="glyphicon glyphicon-camera"></i><p>{{ 'action.registry'|trans }}</p></a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a class="btn btn-default" href="{{ url('auth_login') }}" title="{{ 'auth.login.label'|trans }}">
+                            <i class="glyphicon glyphicon-log-in"></i>
+                            <p>{{ 'auth.login.label'|trans }}</p>
+                        </a>
+                    </div>
+                    <div class="col-xs-4">
+                        <a class="btn btn-default" href="{{ url('search_action') }}" title="{{ 'search.label'|trans }}">
+                            <i class="glyphicon glyphicon-search"></i>
+                            <p>{{ 'search.label'|trans }}</p>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </article>
+    </main>
+{% endblock %}

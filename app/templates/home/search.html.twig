@@ -1,0 +1,58 @@
+{#CRUD tylko dla admina#}
+{% extends 'base.html.twig' %}
+{% block title %}
+    PhotoShow - All tags
+{% endblock %}
+{% block content %}
+    <main>
+        <article class="center-blok container">
+            <div class="container">
+                <header>
+                    <div class="row">
+                        <div class="col-md-3"> {#w sumie to dodawania tu nie potrzeba, nie?#}
+                            {#<a href="{{ url('photo_add', {'id':profile.id}) }}" class="btn btn-success btn-sm"> #}{#dla braku paginacji: href="./add"#}
+                            {#<i class="glyphicon glyphicon-plus"></i>#}
+                            {#{{ 'add'|trans }}#}
+                            {#</a>#}
+                        </div>
+                        <div class="col-md-6">
+                            <h1 class="text-center">{{ 'search'|trans }}</h1>
+                        </div>
+                    </div>
+                </header>
+            </div>
+            <div class="center-block container" id="search">
+                <div class="row">
+                    <div class="widget col-md-10" id="search">
+                    {{ form_start(form_search, { method: 'post', action: url('search_action') }) }}
+                    {{ form_widget(form_search) }}
+                    </div>
+                    <div class=" col-md-2">
+                        <input type="submit" value="{{ 'action.search'|trans }}" class="btn btn-success margin-0" />
+                    </div>
+                    {{ form_end(form_search) }}
+                    {#{% if none %}#}
+                    {#<div class="container">#}
+                    {#Niestety nie znaleziono wyniku :(#}
+                    {#</div>#}
+                    {#{% endif %}#}
+
+                </div>
+                <div class="row margin-0">
+                    <a href="{{url('tag_index') }}" title="{{ 'action.tags'|trans }}" class="btn btn-info col-md-2">
+                        <i class="glyphicon glyphicon-arrow-right"></i>
+                        {{ 'action.tags'|trans }}
+                    </a>
+                    <p class="col-md-8 margin-0">{{ 'if_tags_click'|trans }}</p>
+                </div>
+		<div class="row margin-0">
+                    <a href="{{url('profile_index') }}" title="{{ 'action.users'|trans }}" class="btn btn-info col-md-2">
+                        <i class="glyphicon glyphicon-arrow-right"></i>
+                        {{ 'action.users'|trans }}
+                    </a>
+                    <p class="col-md-8 margin-0">{{ 'if_users_click'|trans }}</p>
+                </div>
+            </div>
+        </article>
+    </main>
+{% endblock %}

@@ -1,0 +1,345 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+        <body>
+
+            <trans-unit id="labels.nav.prev">
+                <source>labels.nav.prev</source>
+                <target>wstecz</target>
+            </trans-unit>
+            <trans-unit id="labels.nav.next">
+                <source>label.nav.next</source>
+                <target>dalej</target>
+            </trans-unit>
+
+            <trans-unit id="turn on paginate">
+                <source>turn on paginate</source>
+                <target>włącz paginację</target>
+            </trans-unit>
+
+            <trans-unit id="edit">
+                <source>edit</source>
+                <target>edytuj</target>
+            </trans-unit>
+            <trans-unit id="delete">
+                <source>delete</source>
+                <target>usuń</target>
+            </trans-unit>
+            <trans-unit id="save">
+                <source>save</source>
+                <target>prześlij</target>
+            </trans-unit>
+            <trans-unit id="add">
+                <source>add</source>
+                <target>dodaj</target>
+            </trans-unit>
+
+            <trans-unit id="action.save">
+                <source>action.save</source>
+                <target>prześlij</target>
+            </trans-unit>
+            <trans-unit id="action.delete">
+                <source>action.delete</source>
+                <target>usuń</target>
+            </trans-unit>
+            <trans-unit id="action.edit">
+                <source>action.edit</source>
+                <target>edytuj</target>
+            </trans-unit>
+
+
+
+            <trans-unit id="search.label">
+                <source>search.label</source>
+                <target>szukaj</target>
+            </trans-unit>
+
+            <trans-unit id="auth.login.label">
+                <source>auth.login.label</source>
+                <target>zaloguj się</target>
+            </trans-unit>
+            <trans-unit id="auth.logout.label">
+                <source>auth.logout.label</source>
+                <target>wyloguj</target>
+            </trans-unit>
+
+            <trans-unit id="action.registry">
+                <source>action.registry</source>
+                <target>zarejestruj się</target>
+            </trans-unit>
+
+            <trans-unit id="label.login">
+                <source>label.login</source>
+                <target>login:</target>
+            </trans-unit>
+            <trans-unit id="label.password">
+                <source>label.password</source>
+                <target>hasło:</target>
+            </trans-unit>
+            <trans-unit id="label.mail">
+                <source>label.mail</source>
+                <target>mail:</target>
+            </trans-unit>
+            <trans-unit id="label.name">
+                <source>label.name</source>
+                <target>imię:</target>
+            </trans-unit>
+            <trans-unit id="label.surname">
+                <source>label.surname</source>
+                <target>nazwisko:</target>
+            </trans-unit>
+            <trans-unit id="label.title">
+                <source>label.title</source>
+                <target>tytuł:</target>
+            </trans-unit>
+            <trans-unit id="label.tags">
+                <source>label.tags</source>
+                <target>wybierz tagi:</target>
+            </trans-unit>
+            <trans-unit id="label.source">
+                <source>label.source</source>
+                <target>ścieżka:</target>
+            </trans-unit>
+
+            <trans-unit id="action.search">
+                <source>action.search</source>
+                <target>szukaj</target>
+            </trans-unit>
+
+
+            <trans-unit id="action.login">
+                <source>action.login</source>
+                <target>Ok</target>
+            </trans-unit>
+
+            <trans-unit id="title.auth_login">
+                <source>title.auth_login</source>
+                <target>Zaloguj</target>
+            </trans-unit>
+
+
+
+            <trans-unit id="action.tags">
+                <source>action.tags</source>
+                <target>lista tagów</target>
+            </trans-unit>
+
+            <trans-unit id="if_tags_click">
+                <source>if_tags_click</source>
+                <target>Jeśli chcesz przejść do listy tagów kliknij 'lista tagow'.</target>
+            </trans-unit>
+	    <trans-unit id="action.users">
+                <source>action.users</source>
+                <target>użytkownicy</target>
+            </trans-unit>
+
+            <trans-unit id="if_users_click">
+                <source>if_users_click</source>
+                <target>Jeśli chcesz przejść do listy użytkowników kliknij 'użytkownicy'.</target>
+            </trans-unit>
+
+            <trans-unit id="sure">
+                <source>sure</source>
+                <target>Jesli jestes pewny kliknij przycisk.</target>
+            </trans-unit>
+
+            <trans-unit id="rated">
+                <source>rated</source>
+                <target>To zdjęcie zostało już przez ciebie ocenione.</target>
+            </trans-unit>
+
+            <trans-unit id="welcome">
+                <source>welcome</source>
+                <target>Witamy na stronie</target>
+            </trans-unit>
+
+
+            <trans-unit id="new_photos">
+                <source>new_photos</source>
+                <target>Nowe zdjecia</target>
+            </trans-unit>
+
+            <trans-unit id="gallery">
+                <source>gallery</source>
+                <target>galeria</target>
+            </trans-unit>
+
+            <trans-unit id="search">
+                <source>search</source>
+                <target>wyszukiwarka</target>
+            </trans-unit>
+
+            <trans-unit id="comment_delete">
+                <source>comment_delete</source>
+                <target>usuń komentarz</target>
+            </trans-unit>
+
+            <trans-unit id="photo_delete">
+                <source>photo_delete</source>
+                <target>usuń zdjęcie</target>
+            </trans-unit>
+            <trans-unit id="photo_edit">
+                <source>photo_edit</source>
+                <target>edytuj zdjęcie</target>
+            </trans-unit>
+
+            <trans-unit id="profile_delete">
+                <source>profile_delete</source>
+                <target>usuń profil</target>
+            </trans-unit>
+            <trans-unit id="profile_edit">
+                <source>profile_edit</source>
+                <target>edytuj profil</target>
+            </trans-unit>
+
+
+            <trans-unit id="tag_delete">
+                <source>tag_delete</source>
+                <target>usuń tag</target>
+            </trans-unit>
+
+
+
+
+            <trans-unit id="all_profiles">
+                <source>all_profiles</source>
+                <target>Wszyscy uzytkownicy</target>
+            </trans-unit>
+
+            <trans-unit id="all_tags">
+                <source>all_tags</source>
+                <target>Wszystkie tagi</target>
+            </trans-unit>
+
+
+            <trans-unit id="found_photos">
+                <source>found_photos</source>
+                <target>Znalezione zdjęcia</target>
+            </trans-unit>
+
+
+            <trans-unit id="label.go_to">
+                <source>label.go_to</source>
+                <target>przejdź do </target>
+            </trans-unit>
+            <trans-unit id="label.go_to_gallery">
+                 <source>label.go_to_gallery</source>
+                 <target>idź do galerii </target>
+            </trans-unit>
+            <trans-unit id="s_gallery">
+                <source>s_gallery</source>
+                <target></target>
+            </trans-unit>
+
+            <trans-unit id="label.bac">
+                <source>label.back</source>
+                <target>wróć</target>
+            </trans-unit>
+            <trans-unit id="label.back_to">
+                <source>label.back_to</source>
+                <target>wróć do </target>
+            </trans-unit>
+			
+			<trans-unit id="label.back_to_photo">
+                <source>label.back_to_photo</source>
+                <target>wróć do zdjecia</target>
+            </trans-unit>
+
+            <trans-unit id="label.go_to_add_photo">
+                <source>label.go_to_add_photo</source>
+                <target>przejdź do dodawania zdjęcia</target>
+            </trans-unit>
+
+            <trans-unit id="label.back_to_my_profile">
+                <source>label.back_to_my_profile</source>
+                <target>wróć do mojego profilu</target>
+            </trans-unit>
+            <trans-unit id="label.go_to_my_profile">
+                <source>label.go_to_my_profile</source>
+                <target>przejdź do mojego profilu</target>
+            </trans-unit>
+
+            <trans-unit id="label.go_to_profile">
+                <source>label.go_to_profile</source>
+                <target>przejdź do profilu</target>
+            </trans-unit>
+
+            <trans-unit id="add_new_tag">
+                <source>add_new_tag</source>
+                <target>dodaj nowy tag</target>
+            </trans-unit>
+            <trans-unit id="label.add_new_tag">
+                <source>label.add_new_tag</source>
+                <target>dodaj nowy tag</target>
+            </trans-unit>
+            <trans-unit id="add_new_photo">
+                <source>add_new_photo</source>
+                <target>dodaj nowe zdjęcie</target>
+            </trans-unit>
+
+            <trans-unit id="photo">
+                <source>photo</source>
+                <target>zdjęcie</target>
+            </trans-unit>
+            <trans-unit id="tags">
+                <source>tags</source>
+                <target>tagi</target>
+            </trans-unit>
+            <trans-unit id="name">
+                <source>name</source>
+                <target>imię</target>
+            </trans-unit>
+            <trans-unit id="surname">
+                <source>surname</source>
+                <target>nazwisko</target>
+            </trans-unit>
+            <trans-unit id="mail">
+                <source>mail</source>
+                <target>mail</target>
+            </trans-unit>
+            <trans-unit id="title">
+                <source>title</source>
+                <target>tytył</target>
+            </trans-unit>
+            <trans-unit id="user">
+                <source>user</source>
+                <target>użytkownik</target>
+            </trans-unit>
+
+
+
+            <trans-unit id="publication_date">
+                <source>publication_date</source>
+                <target>data publikacji</target>
+            </trans-unit>
+
+            <trans-unit id="tags:">
+                <source>tags:</source>
+                <target>Tagi:</target>
+            </trans-unit>
+
+            <trans-unit id="by:">
+                <source>by:</source>
+                <target>Autor: </target>
+            </trans-unit>
+
+
+            <trans-unit id="choose_rating">
+                <source>choose_rating</source>
+                <target>oceń</target>
+            </trans-unit>
+
+
+            <trans-unit id="text_comment">
+                <source>text_comment</source>
+                <target>Napisz komentarz</target>
+            </trans-unit>
+
+   	    <trans-unit id="none_photos_found">
+                <source>none_photos_found</source>
+                <target>Nie znaleziono żadnych zdjęć.</target>
+            </trans-unit>
+
+        </body>
+    </file>
+</xliff>

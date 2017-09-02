@@ -1,0 +1,59 @@
+    <nav class="container-fluid">
+
+            <div class="row">
+
+                <div class="col-xs-2">
+                    <a href="{{ url('homepage') }}" title="PhotoShow">
+                        <h1 class="logo margin-15">PhotoShow</h1>
+                    </a>
+                </div>
+                <div class=" last-row-item">
+                    <div class="col-xs-4 form-inline margin-15" id="nav-buttons">
+
+                        <div class="col-xs-5">
+                            <a class="btn btn-default" href="{{ url('search_action') }}" title="{{ 'search.label'|trans }}">
+                                {{ 'search.label'|trans }}
+                                <i class="glyphicon glyphicon-search"></i>
+                            </a>
+
+                        </div>
+                        <div class="col-xs-6">
+                            <form action='' method='POST'>
+                                {#<input type="text" class="form-control " style="width:40%;" id="exampleInputName2" placeholder="login">#}
+                                {#<input type="text" class="form-control " style="width:40%;" id="exampleInputName1" placeholder="password">#}
+                                {#<input type="submit" value="Sign in" class="form-control">#}
+
+                                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                                <a class="btn btn-default" href="{{ url('auth_logout') }}" title="{{ 'auth.logout.label'|trans }}">
+                                                    {{ 'auth.logout.label'|trans }}
+                                                    <i class="glyphicon glyphicon-log-out"></i>
+                                                </a>
+                                            {% else %}
+                                                <a class="btn btn-default" href="{{ url('auth_login') }}" title="{{ 'auth.login.label'|trans }}">
+                                                    {{ 'auth.login.label'|trans }}
+                                                    <i class="glyphicon glyphicon-log-in"></i>
+                                                </a>
+                                            {% endif %}
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-xs- form-inline margin-15 last-row-item">
+                        {% if logged_user is defined and logged_user|length %}
+                                <span id="logged_as">
+                                    {{ 'logged_as' | trans }}
+                                </span>
+                                <div class="" id="logged_as">
+                                    <a href="{{ url('profile_view', {'id':logged_user.id}) }}" title="{{ logged_user.login }}">
+                                        {{ logged_user.login }}
+                                        <i class="glyphicon glyphicon-user"></i>
+                                    </a>
+                                </div>
+
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>

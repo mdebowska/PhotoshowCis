@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+{#One profile#}
+{% block title %}
+    PhotoShow - {{ profile.login }}
+{% endblock %}
+{% block content %}
+    <main>
+        <article class="center-blok container">
+            <header>
+                <h1 class="text-center login">
+                    {{  profile.login|default('login') }}{#login of user#}
+                </h1>
+            </header>
+            <div>
+                {% if profile|length %}
+                    <div class="row">
+                        <div class="col-xs-10">
+                            <p><span class="description"> {{ 'name'|trans }}:</span> {% if complete_profile.name|length %}{{ complete_profile.name }}{% endif %}</p>
+                            <p><span class="description">{{ 'surname'|trans }}:</span> {% if complete_profile.surname|length %}{{ complete_profile.surname }}{% endif %}</p>
+                            <p><span class="description">{{ 'mail'|trans }}:</span> {{ profile.mail }}</p>
+                        </div>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') and (id==logged_user['id'] or logged_user['role']=='admin') %}
+                        <div class="col-xs-2 last-row-item">
+
+                                <a href="{{ url('profile_edit', {'id':id}) }}" title="{{ 'edit'|trans }} {{ 'profile'|trans }}" class="btn btn-primary btn-xs">
+                                    <i class="glyphicon glyphicon-cog"></i>
+                                    {{ 'edit'|trans }}
+                                </a>
+                            <div class="">
+                                <a href="{{ url('profile_delete', {'id':id}) }}" title="{{ 'delete'|trans }} {{ 'profile'|trans }}" class="btn btn-danger btn-xs">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    {{ 'delete'|trans }}
+                                </a>
+                            </div>
+                        </div>
+
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+            <hr>
+            <div>
+                {% block gallery %}
+                    <div class="container">
+                        <header>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    {% if is_granted('IS_AUTHENTICATED_FULLY') and profile.id==logged_user['id']  %}
+                                    <a href="{{ url('photo_add') }}" class="btn btn-success btn-sm"> {#dla braku paginacji: href="./add"#}
+                                        {#, {'id':profile.id})#}
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                        {{ 'add'|trans }}
+                                    </a>
+                                {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <h2 class="text-center">{{ 'gallery'|trans }}</h2>
+                                </div>
+                            </div>
+                        </header>
+                    </div>
+                    {% include 'photo/gallery.html.twig' %}
+                {% endblock %}
+            </div>
+        </article>
+    </main>
+{% endblock %}

@@ -1,0 +1,42 @@
+{#zeby formularz dzialal#}
+{%  extends 'base.html.twig' %}
+
+{% block title %}{{ 'add_new_profile'|trans }}{% endblock %}
+
+{% block content %}
+    <article class="center-blok container">
+        <div class="container">
+            <header>
+                <div class="col-md-3">
+                    {#<a href="{{ url('profile_view', {'id':profile.id}) }}" title="{{ 'label.back_to_my_gallery'|trans }}" class="btn btn-default">#}
+                        {#<span class="fa fa-mail-reply" aria-hidden="true"></span>#}
+                        {#{{ 'label.back_to_my_profile'|trans }}#}
+                    {#</a>#}
+                </div>
+                <div class="col-md-6">
+                    <h1 class="text-center">{{ 'registration'|trans}}</h1>
+                </div>
+            </header>
+        </div>
+
+
+
+
+            {#{{ form_start(form, { method: 'post', action: url('profile_edit', {'id': tag.id}) }) }}#}
+    {#{{ form_widget(form) }}#}
+    {#<input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-success" />#}
+    {#{{ form_end(form) }}#}
+
+
+
+            <div class="container">
+                <div class="half-widget center-form">
+                    {{ form_start(form, { method: 'post', action: url('home_registration') }) }}
+                    {{ form_widget(form) }}
+                    <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-success  not-widget" />
+                    {{ form_end(form) }}
+                </div>
+            </div>
+    </article>
+{% endblock %}
+

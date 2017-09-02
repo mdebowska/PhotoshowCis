@@ -1,0 +1,39 @@
+{#stworzyc formularz#}
+{%  extends 'base.html.twig' %}
+
+{% block title %}{{ 'add_new_photo'|trans }}{% endblock %}
+
+{% block content %}
+    <article class="center-blok container">
+        <div class="container">
+            <header>
+                <div class="col-md-3">
+                    <a href="{{ url('profile_view', {'id':profile.id}) }}" title="{{ 'label.back_to_my_profile'|trans }}" class="btn btn-default">
+                        <span class="fa fa-mail-reply" aria-hidden="true"></span>
+                        <i class="glyphicon glyphicon-arrow-left"></i>
+                        {{ 'label.back_to_my_profile'|trans }}
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <h1 class="text-center">{{ 'add_new_photo'|trans}}</h1>
+                </div>
+            </header>
+        </div>
+
+            <div class="container">
+                <div class="col-md-9">
+                    {{ form_start(form, { method: 'post', action: url('photo_add', {'id':id}) }) }}
+                    {{ form_widget(form) }}
+                    <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-success" />
+                    {{ form_end(form) }}
+                </div>
+                <div class="col-md-3 last-row-item">
+                    <a href="{{ url('tag_add') }}" title="{{ 'label.add_new_tag'|trans }}" class="btn btn-info">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        {{ 'label.add_new_tag'|trans }}
+                    </a>
+                </div>
+            </div>
+    </article>
+{% endblock %}
+

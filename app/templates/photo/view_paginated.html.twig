@@ -1,0 +1,140 @@
+{#zalaczyc mozliwosc oceniania i komentowania#}
+{#(CR)UD#}
+{% extends 'base.html.twig' %}
+{#One photo from gallery#}
+{% block title %}
+    PhotoShow - {{photo.title}}
+{% endblock %}
+{% block content %}
+    <article class="center-blok container">
+        <div class="container">
+            <header>
+                <div class="col-xs-3">
+                    <a href="{{ url('profile_view', {'id':photo.user_id}) }}" title="{{ 'label.go_to_gallery'|trans }}" class="btn btn-default">
+                        <span class="fa fa-mail-reply" aria-hidden="true"></span>
+                        <i class="glyphicon glyphicon-arrow-left"></i>
+                        {{ 'label.go_to_gallery'|trans}} {{photo.login}}{{ 's_gallery'|trans}}
+                    </a>
+
+
+                    <div class="col-md-6 col-sm-8 col-xs-12 remove-padding margin-5v">
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') and logged_user.id==photo.user_id or is_granted('ROLE_ADMIN')%}
+        {#Jak to zrobić?#}
+                        <div class="buttons remove-padding">
+
+                            <a href="{{ url('photo_edit', {'id':photo.id}) }}" class="btn btn-primary btn-xs">
+                                <i class="glyphicon glyphicon-cog"></i>
+                                {{ 'edit'|trans }}
+                            </a>
+                        </div>
+                        <div class="buttons remove-padding">
+                            <a href="{{ url('photo_delete', {'id':photo.id}) }}" class="btn btn-danger btn-xs">
+                                <i class="glyphicon glyphicon-trash"></i>
+                                {{ 'delete'|trans }}
+                            </a>
+                        </div>
+        {% endif %}
+                    </div>
+                </div>
+                <h1 class="text-center col-md-6">
+                    {{ photo.title|default('title') }}{#title of album#}
+                </h1>
+                <div class="col-md-3 last-row-item">
+                    {% if rating|length %}
+                        {%for star in range(1, rating) %} {#czemu zawsze 1 mi się wyświetla?#}
+                            <i class="glyphicon glyphicon-star m-star"></i>
+                        {% endfor %}
+                    {% else %}
+                        {#{%for star in range(1, 1) %}#}
+                            {#<i class="glyphicon glyphicon-star black-star"></i>#}
+                        {#{% endfor %}#}
+                    {% endif %}
+
+                    <p>{{ 'publication_date'|trans }}: {{ photo.publicationDate }}</p>
+                </div>
+            </header>
+        </div>
+        {% if photo|length %}
+            <div>
+                <img src="{{ asset('uploads/photos/' ~ photo.source) }}"  alt="{{ photo.title }}" id="view">
+
+                {#Jesli zalogowany to moze komentowac i oceniac#}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-10">
+                            {{ 'tags:'|trans }}
+                            {% for row in tags %}
+                                <a href="{{ url('photo_tag', {'id':row.id}) }}"> {{ row.name }},</a>
+                            {% endfor %}
+                        </div>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+                            <div class="col-md-2 margin-15">
+                                {% if user_have_rated == false %}
+                                    {{ form_start(form, { method: 'post', action: url('photo_view', {'id':id}) }) }}
+                                    {{ form_widget(form) }}
+                                    <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-success margin-0" />
+                                    {{ form_end(form) }}
+                                {% else %}
+                                    {{ 'rated'|trans }}
+                                {% endif %}
+                            </div>
+                    </div>
+                        {% endif %}
+                            <div class="row">
+                                <div class="col-sm-4" id="comment_type">
+                                    {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+                                        {{ form_start(form_comment, { method: 'post', action: url('photo_view', {'id':id}) }) }}
+                                        {{ form_widget(form_comment) }}
+                                        <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-success" />
+                                        {{ form_end(form_comment) }}
+                                    {% endif %}
+                                </div>
+                                <div class="col-sm-8">
+                                    {# WYŚWIETLANIE WSZYSTKICH KOMENTARZY #}
+                                    {% if comments.data|length %}
+                                        <div class="">
+                                            {% include 'default/_paginator_view.html.twig' with {
+                                            paginator: comments,
+                                            route_name: 'photo_view',
+                                            } %}
+                                            {#paginator: profiles,#}
+                                            {#route_name: 'profile_index_paginated',#}
+                                        </div>
+                                        <ul id="comment">
+                                            {% for row in comments.data %}
+                                                <li>
+                                                    <div class="row comment">
+                                                        <div class="col-xs-2 info">
+                                                            {{ 'by:'|trans }}<a href="{{  url('profile_view', {'id':row.user_id}) }}" class="">{{ row.login}}</a>
+                                                            <p>{{ row.publicationDate}}</p>
+                                                        </div>
+                                                        <div class="col-xs-8">
+                                                            <p>{{ row.text }}</p>
+                                                        </div>
+                                                        {% if is_granted('IS_AUTHENTICATED_FULLY') and (row.user_id==logged_user['id'] or logged_user['role']=='admin') %}
+                                                            <div class="col-xs-1 remove-padding last-row-item remove-padding">
+                                                               <a href="{{ url('comment_delete', {'id':row.id}) }}" class="btn btn-danger btn-xs last-row-item">
+                                                                  <i class="glyphicon glyphicon-trash"></i>
+                                                                  {{ 'delete'|trans }}
+                                                               </a>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+            </div>
+        {% endif %}
+    </article>
+{% endblock %}
