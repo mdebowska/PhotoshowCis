@@ -67,6 +67,10 @@
                 <source>action.registry</source>
                 <target>zarejestruj się</target>
             </trans-unit>
+	    <trans-unit id="registration">
+                <source>registration</source>
+                <target>tworzenie konta</target>
+            </trans-unit>
 
             <trans-unit id="label.login">
                 <source>label.login</source>
@@ -76,6 +80,12 @@
                 <source>label.password</source>
                 <target>hasło:</target>
             </trans-unit>
+	    <trans-unit id="label.repeat.password">
+                <source>label.repeat.password</source>
+                <target>powtórz:</target>
+            </trans-unit>
+
+
             <trans-unit id="label.mail">
                 <source>label.mail</source>
                 <target>mail:</target>

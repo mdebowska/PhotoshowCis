@@ -67,6 +67,11 @@
                 <source>action.registry</source>
                 <target>sign up</target>
             </trans-unit>
+	    <trans-unit id="registration">
+                <source>registration</source>
+                <target>create account</target>
+            </trans-unit>
+
 
             <trans-unit id="label.login">
                 <source>label.login</source>
@@ -76,6 +81,11 @@
                 <source>label.password</source>
                 <target>password:</target>
             </trans-unit>
+	    <trans-unit id="label.repeat.password">
+                <source>label.repeat.password</source>
+                <target>repeat:</target>
+            </trans-unit>
+
             <trans-unit id="label.mail">
                 <source>label.mail</source>
                 <target>mail:</target>
@@ -343,6 +353,32 @@
                 <source>none_photos_found</source>
                 <target>None photos found.</target>
             </trans-unit>
+
+
+
+
+
+            <trans-unit id="message.it_is_not_your_photo">
+                <source>message.it_is_not_your_photo</source>
+                <target>It's not your photo.</target>
+            </trans-unit>
+	    <trans-unit id="message.it_is_not_your_profile">
+                <source>message.it_is_not_your_profile</source>
+                <target>It's not your profile.</target>
+            </trans-unit>
+	    <trans-unit id="message.password_not_repeated">
+                <source>message.password_not_repeated</source>
+                <target>Bad password-repeated.</target>
+            </trans-unit>
+
+	    <trans-unit id="message.">
+                <source>message.</source>
+                <target>It_is_not_your_photo.</target>
+            </trans-unit>
+
+
+
+
 
 
         </body>

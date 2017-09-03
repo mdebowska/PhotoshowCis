@@ -7,6 +7,7 @@ namespace Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -58,31 +59,30 @@ class UserType extends AbstractType
                 ],
             ]
         );
-        $builder->add(
+	$builder->add(
             'password',
-            PasswordType::class,
+            RepeatedType::class,
             [
-                'label' => 'label.password',
+		'type' => PasswordType::class,
+                'invalid_message' => 'message.password_not_repeated',
+                'options' => array('attr' => array('class' => 'password-field')),
                 'required' => true,
-                'attr' => [
-                    'max_length' => 225,
-                ],
+                'first_options' => array('label' => 'label.password'),
+                'second_options' => array('label' => 'label.repeat.password'),
                 'constraints' => [
-                    new Assert\NotBlank(
-                        [
-                            'groups' => ['user-default']
-                        ]
-                    ),
+                    new Assert\NotBlank(),
                     new Assert\Length(
                         [
-                            'groups' => ['user-default'],
+			    'groups' => ['user-default'],
                             'min' => 8,
-                            'max' => 128,
+                            'max' => 32,
                         ]
                     ),
                 ],
+        
             ]
         );
+
         $builder->add(
             'mail',
             EmailType::class,
