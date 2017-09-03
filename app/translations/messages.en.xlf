@@ -349,14 +349,11 @@
             </trans-unit>
 
 
+
             <trans-unit id="none_photos_found">
                 <source>none_photos_found</source>
                 <target>None photos found.</target>
             </trans-unit>
-
-
-
-
 
             <trans-unit id="message.it_is_not_your_photo">
                 <source>message.it_is_not_your_photo</source>
@@ -371,10 +368,34 @@
                 <target>Bad password-repeated.</target>
             </trans-unit>
 
-	    <trans-unit id="message.">
-                <source>message.</source>
-                <target>It_is_not_your_photo.</target>
+	    <trans-unit id="message.record_not_found">
+                <source>message.record_not_found</source>
+                <target>Record not found.</target>
             </trans-unit>
+
+	    <trans-unit id="Bad credentials.">
+                <source>Bad credentials.</source>
+                <target>Bad credentials.</target>
+            </trans-unit>
+
+
+	    <trans-unit id="message.element_successfully_added">
+                <source>message.element_successfully_added</source>
+                <target>Element successfully added.</target>
+            </trans-unit>
+	    <trans-unit id="message.element_successfully_edited">
+                <source>message.element_successfully_edited</source>
+                <target>Element successfully edited.</target>
+            </trans-unit>
+	    <trans-unit id="message.element_successfully_deleted">
+                <source>message.element_successfully_deleted</source>
+                <target>Element successfully deleted.</target>
+            </trans-unit>
+
+
+	    
+
+
 
 
 

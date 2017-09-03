@@ -36,7 +36,7 @@
 
             <trans-unit id="action.save">
                 <source>action.save</source>
-                <target>prześlij</target>
+                <target>ok</target>
             </trans-unit>
             <trans-unit id="action.delete">
                 <source>action.delete</source>
@@ -213,7 +213,7 @@
 
             <trans-unit id="all_profiles">
                 <source>all_profiles</source>
-                <target>Wszyscy uzytkownicy</target>
+                <target>Wszyscy użytkownicy</target>
             </trans-unit>
 
             <trans-unit id="all_tags">
@@ -345,10 +345,49 @@
                 <target>Napisz komentarz</target>
             </trans-unit>
 
+
+
    	    <trans-unit id="none_photos_found">
                 <source>none_photos_found</source>
                 <target>Nie znaleziono żadnych zdjęć.</target>
             </trans-unit>
+
+            <trans-unit id="message.it_is_not_your_photo">
+                <source>message.it_is_not_your_photo</source>
+                <target>To nie twoje zdjęcie.</target>
+            </trans-unit>
+	    <trans-unit id="message.it_is_not_your_profile">
+                <source>message.it_is_not_your_profile</source>
+                <target>To nie twój profil.</target>
+            </trans-unit>
+	    <trans-unit id="message.password_not_repeated">
+                <source>message.password_not_repeated</source>
+                <target>Źle powtórzone hasło.</target>
+            </trans-unit>
+	    <trans-unit id="message.record_not_found">
+                <source>message.record_not_found</source>
+                <target>Nie znaleziono wyniku.</target>
+            </trans-unit>
+
+	    <trans-unit id="Bad credentials.">
+                <source>Bad credentials.</source>
+                <target>Niepoprawne dane.</target>
+            </trans-unit>
+
+
+	    <trans-unit id="message.element_successfully_added">
+                <source>message.element_successfully_added</source>
+                <target>Element został dodany.</target>
+            </trans-unit>
+	    <trans-unit id="message.element_successfully_edited">
+                <source>message.element_successfully_edited</source>
+                <target>Element został edytowany.</target>
+            </trans-unit>
+	    <trans-unit id="message.element_successfully_deleted">
+                <source>message.element_successfully_deleted</source>
+                <target>Element został usunięty.</target>
+            </trans-unit>
+
 
         </body>
     </file>
