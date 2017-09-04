@@ -158,55 +158,50 @@ class UserRepository
 
 
     /**
-     * Delete Userdata, All photos by user, All retiring.
+     * Delete User with Userdata, All photos by user, All retiring.
      *
      * @param array $user
      *
      * @return boolean Result
      */
-    public function deleteUserChildren(Application $app, $user)
+    public function deleteUser(Application $app, $user)
     {
-        if (isset($user['id']) && ctype_digit((string) $user['id'])) {
-            $id=$user['id'];
-            $photoRepository = new PhotoRepository($app['db']);
-            $photo_ids=$photoRepository->findAllByUserIds($user['id']);
 
-            $this->db->delete('rating', ['user_id'=>$id]);
-            $this->db->delete('comment', ['user_id'=>$id]);
+	$this->db->beginTransaction();
+        try {
 
-            if($photo_ids){
-                foreach ($photo_ids as $photo_id){
-                    $this->db->delete('rating', ['photo_id'=>$photo_id['id']]);
-                    $this->db->delete('comment', ['photo_id'=>$photo_id['id']]);
-                    $photoRepository->removeLinkedTags($photo_id['id']);
-                }
-            }
-            $this->db->delete('photo', ['user_id'=>$id]);
-            $this->db->delete('userdata', ['user_id'=>$id]);
-            return $this->db->delete('user', ['id'=>$id])
-                ;
-        } else {
-            throw new \InvalidArgumentException('Invalid parameter type');
-        }
+        	if (isset($user['id']) && ctype_digit((string) $user['id'])) {
+
+            	    $id=$user['id'];
+	            $photoRepository = new PhotoRepository($app['db']);
+	            $photo_ids=$photoRepository->findAllByUserIds($user['id']);
+
+	            $this->db->delete('rating', ['user_id'=>$id]);
+	            $this->db->delete('comment', ['user_id'=>$id]);
+
+	            if($photo_ids){
+	                foreach ($photo_ids as $photo_id){
+	                    $this->db->delete('rating', ['photo_id'=>$photo_id['id']]);
+	                    $this->db->delete('comment', ['photo_id'=>$photo_id['id']]);
+	                    $photoRepository->removeLinkedTags($photo_id['id']);
+	                }
+	            }
+	            $this->db->delete('photo', ['user_id'=>$id]);
+	            $this->db->delete('userdata', ['user_id'=>$id]);
+	            $this->db->delete('user', ['id'=>$id]);
+
+	
+	        } else {
+        	   	 throw new \InvalidArgumentException('Invalid parameter type');
+	        }
+		$this->db->commit();
+	} catch (Exception $e) {
+            $this->db->rollBack();
+            throw $e;
+       }
+
     }
 
-
-    /**
-     * Delete record.
-     *
-     * @param array $user
-     *
-     * @return boolean Result
-     */
-    public function delete($user)  //nie działa - zakazuje usunęcia z powodu obcego klucza
-    {
-        if (isset($user['id']) && ctype_digit((string) $user['id'])) {
-
-            return $this->db->delete('user', ['id'=>$user['id']]);//&&$this->db->delete('userdata', ['id'=>$user['id']]);
-        } else {
-            throw new \InvalidArgumentException('Invalid parameter type');
-        }
-    }
 
 
 

@@ -227,6 +227,10 @@ class PhotoRepository
             throw $e;
         }
     }
+    
+
+
+
     /**
      * Delete record.
      *
@@ -236,17 +240,53 @@ class PhotoRepository
      */
     public function delete($photo)
     {
-        if (isset($photo['id']) && ctype_digit((string) $photo['id'])) {
-            //delete record
-            $id=$photo['id'];
-            $this->db->delete('rating', ['photo_id'=>$id]);
-            $this->db->delete('comment', ['photo_id'=>$id]);
-            $this->removeLinkedTags($photo['id']);
-            return $this->db->delete('photo', ['id'=>$id]);
-        } else {
-            throw new \InvalidArgumentException('Invalid parameter type');
+        $this->db->beginTransaction();
+        unset($photo['login']);
+        try {
+
+            if (isset($photo['id']) && ctype_digit((string) $photo['id'])) {
+                //delete record
+                $id=$photo['id'];
+                $this->db->delete('rating', ['photo_id'=>$id]);
+                $this->db->delete('comment', ['photo_id'=>$id]);
+                $this->removeLinkedTags($photo['id']);
+                $this->db->delete('photo', ['id'=>$id]);
+	
+            } else {
+                throw new \InvalidArgumentException('Invalid parameter type');
+            }
+            $this->db->commit();
+        } catch (DBALException $e) {
+            $this->db->rollBack();
+            throw $e;
         }
+
     }
+
+
+
+
+
+/**
+     * Delete record.
+     *
+     * @param array $photo Photo
+     *
+     * @return boolean Result
+     */
+//    public function delete($photo)
+//    {
+//        if (isset($photo['id']) && ctype_digit((string) $photo['id'])) {
+//            //delete record
+//            $id=$photo['id'];
+//          $this->db->delete('rating', ['photo_id'=>$id]);
+//            $this->db->delete('comment', ['photo_id'=>$id]);
+//            $this->removeLinkedTags($photo['id']);
+//            return $this->db->delete('photo', ['id'=>$id]);
+//        } else {
+//            throw new \InvalidArgumentException('Invalid parameter type');
+//        }
+//    }
 
 
     /**

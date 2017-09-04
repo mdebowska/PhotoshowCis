@@ -295,8 +295,8 @@ class ProfileController implements ControllerProviderInterface
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $userRepository->deleteUserChildren($app, $form->getData());
-                $userRepository->delete($form->getData());
+                $userRepository->deleteUser($app, $form->getData());
+                //$userRepository->delete($form->getData());
 
                 $app['session']->getFlashBag()->add(
                     'messages',
