@@ -54,16 +54,7 @@ $app->extend('translator', function ($translator, $app) {
 
 require_once dirname(dirname(__FILE__)).'/config/db.php';
 
-//$app->register(
-//    new SecurityServiceProvider(),
-//    [
-//        'security.firewalls' => [
-//            'unsecured' => [
-//                'anonymous' => true,
-//            ],
-//        ],
-//    ]
-//);
+
 
 $app->register(
     new SecurityServiceProvider(),
@@ -95,11 +86,11 @@ $app->register(
         'security.access_rules' => [
             ['^/auth.+$', 'IS_AUTHENTICATED_ANONYMOUSLY'],
             ['^/registration$', 'IS_AUTHENTICATED_ANONYMOUSLY'],
-//            ['^/.+$', 'ROLE_USER'],
-//            ['^/.+$', 'ROLE_ADMIN'],
+            //['^/.+$', 'user'],
+            //['^/.+$', 'admin'],
         ],
         'security.role_hierarchy' => [
-            'ROLE_ADMIN' => ['ROLE_USER'],
+            'admin' => ['user'],
         ],
     ]
 );
@@ -108,8 +99,6 @@ $app->register(new FormServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new SessionServiceProvider());
 
-//dump($app['security.encoder.bcrypt']->encodePassword('jTE7cm666Xk6', ''));
-//dump($app['security.encoder.bcrypt']->encodePassword('qAWfMuqyVEe5', ''));
 
 return $app;
 
