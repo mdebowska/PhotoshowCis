@@ -1,4 +1,3 @@
-{#CRUD tylko dla admina#}
 {% extends 'base.html.twig' %}
 {#All profiles in webside#}
 {% block title %}
@@ -42,21 +41,20 @@
                                     </div>
                                 {#if admin#}
                                     <div class="col-md-2">
-                                        {#{% if row.id==logged_id or logged_role=='admin' %}#}
-                                        {#<div class="col-md-5 remove-padding">#}
-
-                                            {#<a href="{{ url('profile_edit', {'id':row.id}) }}" class="btn btn-primary btn-xs">#}
-                                                {#<i class="glyphicon glyphicon-cog"></i>#}
-                                                {#{{ 'edit'|trans }}#}
-                                            {#</a>#}
-                                        {#</div>#}
-                                        {#<div class="col-md-6 remove-padding">#}
-                                            {#<a href="{{ url('profile_delete', {'id':row.id}) }}" class="btn btn-danger btn-xs">#}
-                                                {#<i class="glyphicon glyphicon-trash"></i>#}
-                                                {#{{ 'delete'|trans }}#}
-                                            {#</a>#}
-                                        {#</div>#}
-                                        {#{% endif %}#}
+                                        {% if is_granted('IS_AUTHENTICATED_FULLY') and (row.id==logged_user['id'] or is_granted('ROLE_ADMIN')) %}
+                                        <div class="col-md-5 remove-padding">
+                                            <a href="{{ url('profile_edit', {'id':row.id}) }}" class="btn btn-primary btn-xs">
+                                                <i class="glyphicon glyphicon-cog"></i>
+                                                {{ 'edit'|trans }}
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 remove-padding">
+                                            <a href="{{ url('profile_delete', {'id':row.id}) }}" class="btn btn-danger btn-xs">
+                                                <i class="glyphicon glyphicon-trash"></i>
+                                                {{ 'delete'|trans }}
+                                            </a>
+                                        </div>
+                                            {% endif %}
                                     </div>
                                 </div>
                             {#endif#}

@@ -1,4 +1,3 @@
-{#CRUD tylko dla admina#}
 {% extends 'base.html.twig' %}
 {% block title %}
     PhotoShow - All tags
@@ -9,13 +8,8 @@
             <div class="container">
                 <header>
                     <div class="row">
-                        <div class="col-md-3"> {#w sumie to dodawania tu nie potrzeba, nie?#}
-                            {#<a href="{{ url('photo_add', {'id':profile.id}) }}" class="btn btn-success btn-sm"> #}{#dla braku paginacji: href="./add"#}
-                            {#<i class="glyphicon glyphicon-plus"></i>#}
-                            {#{{ 'add'|trans }}#}
-                            {#</a>#}
-                        </div>
-                        <div class="col-md-6">
+
+                        <div class="col-md-12">
                             <h1 class="text-center">{{ 'search'|trans }}</h1>
                         </div>
                     </div>
@@ -31,11 +25,7 @@
                         <input type="submit" value="{{ 'action.search'|trans }}" class="btn btn-success margin-0" />
                     </div>
                     {{ form_end(form_search) }}
-                    {#{% if none %}#}
-                    {#<div class="container">#}
-                    {#Niestety nie znaleziono wyniku :(#}
-                    {#</div>#}
-                    {#{% endif %}#}
+
 
                 </div>
                 <div class="row margin-0">

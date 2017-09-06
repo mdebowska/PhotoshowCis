@@ -13,7 +13,7 @@
             </div>
             <div class="center-block container">
                 {% if is_granted('IS_AUTHENTICATED_FULLY')%}
-                    <a href="{{ url('tag_add') }}" class="btn btn-success btn-sm"> {#dla braku paginacji: href="./add"#}
+                    <a href="{{ url('tag_add') }}" class="btn btn-success btn-sm">
                         <i class="glyphicon glyphicon-plus"></i>
                         {{ 'add'|trans }}
                     </a>
@@ -34,15 +34,8 @@
                                     </div>
                                     {#if admin#}
                                     <div class="col-md-2">
-                                        {#<div class="col-md-5 remove-padding">#}
-
-                                            {#<a href="{{ url('profile_edit', {'id':row.id}) }}" class="btn btn-primary btn-xs">#}
-                                                {#<i class="glyphicon glyphicon-cog"></i>#}
-                                                {#{{ 'edit'|trans }}#}
-                                            {#</a>#}
-                                        {#</div>#}
                                         <div class="col-md-6 remove-padding">
-                                        {% if is_granted('IS_AUTHENTICATED_FULLY') and logged_user['role']=='admin' %}
+                                        {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
                                             <a href="{{ url('tag_delete', {'id':row.id}) }}" class="btn btn-danger btn-xs">
                                                 <i class="glyphicon glyphicon-trash"></i>
                                                 {{ 'delete'|trans }}
