@@ -86,11 +86,9 @@ $app->register(
         'security.access_rules' => [
             ['^/auth.+$', 'IS_AUTHENTICATED_ANONYMOUSLY'],
             ['^/registration$', 'IS_AUTHENTICATED_ANONYMOUSLY'],
-            //['^/.+$', 'user'],
-            //['^/.+$', 'admin'],
         ],
         'security.role_hierarchy' => [
-            'admin' => ['user'],
+            'ROLE_ADMIN' => ['ROLE_USER'],
         ],
     ]
 );
@@ -98,7 +96,6 @@ $app->register(
 $app->register(new FormServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new SessionServiceProvider());
-
 
 return $app;
 

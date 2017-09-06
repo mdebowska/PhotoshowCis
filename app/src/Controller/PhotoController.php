@@ -365,8 +365,8 @@ class PhotoController implements ControllerProviderInterface
 
             return $app->redirect($app['url_generator']->generate('home_index'));   //generate('profile_view', ['id'=>$user_id])); $user_id = $photo['user_id']
         }
-//dump(is_granted('IS_AUTHENTICATED_FULLY'))
-        if($logged_user['id']===$photo['user_id'] or $logged_user['role']==='admin') {
+
+        if($logged_user['id']===$photo['user_id'] or $app['security.authorization_checker']->isGranted('ROLE_ADMIN')) {
             $form = $app['form.factory']->createBuilder(
                 PhotoType::class,
                 $photo,
@@ -436,7 +436,7 @@ class PhotoController implements ControllerProviderInterface
 
             return $app->redirect($app['url_generator']->generate('photo_index'), 301);
         }
-        if($logged_user['id']===$photo['user_id'] or $logged_user['role']==='admin') {
+        if($logged_user['id']===$photo['user_id'] or $app['security.authorization_checker']->isGranted('ROLE_ADMIN')) {
             $form = $app['form.factory']->createBuilder(
                 FormType::class,
                 $photo
@@ -507,7 +507,7 @@ class PhotoController implements ControllerProviderInterface
             return $app->redirect($app['url_generator']->generate('home_index'), 301);
         }
 
-        if($logged_user['id']===$comment['user_id'] or $logged_user['role']==='admin') {
+        if($logged_user['id']===$comment['user_id'] or $app['security.authorization_checker']->isGranted('ROLE_ADMIN')) {
             $form = $app['form.factory']->createBuilder(
                 FormType::class,
                 $comment

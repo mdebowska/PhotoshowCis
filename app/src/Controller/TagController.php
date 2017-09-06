@@ -130,7 +130,7 @@ class TagController implements ControllerProviderInterface
             return $app->redirect($app['url_generator']->generate('tag_index'), 301);
         }
 
-        if ($logged_user['role']=='admin') {
+        if ($app['security.authorization_checker']->isGranted('ROLE_ADMIN')) {
             $form = $app['form.factory']->createBuilder(
                 FormType::class,
                 $tag

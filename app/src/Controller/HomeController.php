@@ -63,6 +63,22 @@ class HomeController implements ControllerProviderInterface
             $photoRepository = new PhotoRepository($app['db']);
             $photos = $photoRepository->findAllPaginated($page);
         }
+if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
+echo 'fully';
+}
+
+if ($app['security.authorization_checker']->isGranted('ROLE_ADMIN')) {
+echo 'ROLE_ADMIN';
+}
+
+if ($app['security.authorization_checker']->isGranted('ROLE_USER')) {
+echo 'ROLE_USER';
+}
+
+if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
+echo 'ANONYMOUS';
+}
+
         return $app['twig']->render('home/index.html.twig',
             [
                 'logged_user'=>$logged_user,

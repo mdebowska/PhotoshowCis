@@ -191,7 +191,7 @@ class ProfileController implements ControllerProviderInterface
             return $app->redirect($app['url_generator']->generate('home_index'));
         }
 //FORMULARZ - EDYCJA USER
-        if($logged_user['id']==$id or $logged_user['role']=='admin') { //jesli to twoj profil albo jestes adminem to zezwol
+        if($logged_user['id']==$id or $app['security.authorization_checker']->isGranted('ROLE_ADMIN')) { //jesli to twoj profil albo jestes adminem to zezwol
             $form = $app['form.factory']->createBuilder(
                 UserType::class,
                 $user,
@@ -287,7 +287,7 @@ class ProfileController implements ControllerProviderInterface
             return $app->redirect($app['url_generator']->generate('home_index'), 301);
         }
 
-        if($logged_user['id']==$id or $logged_user['role']=='admin') { //jesli to twoj profil albo jestes adminem to zezwol
+        if($logged_user['id']==$id or $app['security.authorization_checker']->isGranted('ROLE_ADMIN')) { //jesli to twoj profil albo jestes adminem to zezwol
             $form = $app['form.factory']->createBuilder(
                 FormType::class,
                 $user
