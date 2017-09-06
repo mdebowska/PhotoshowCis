@@ -17,7 +17,7 @@
                         <div class="col-xs-10">
                             <p><span class="description"> {{ 'name'|trans }}:</span> {% if complete_profile.name|length %}{{ complete_profile.name }}{% endif %}</p>
                             <p><span class="description">{{ 'surname'|trans }}:</span> {% if complete_profile.surname|length %}{{ complete_profile.surname }}{% endif %}</p>
-                            <p><span class="description">{{ 'mail'|trans }}:</span> {{ profile.mail }}</p>
+                            {% if is_granted('ROLE_ADMIN') %}<p><span class="description">{{ 'mail'|trans }}:</span> {{ profile.mail }}</p> {% endif %}
                         </div>
                         {% if is_granted('IS_AUTHENTICATED_FULLY') and (id==logged_user['id'] or is_granted('ROLE_ADMIN')) %}
                         <div class="col-xs-2 last-row-item">
