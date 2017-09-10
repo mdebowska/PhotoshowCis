@@ -3,6 +3,13 @@
     <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
         <body>
 
+
+	    <trans-unit id="message.password_not_repeated">
+                <source>message.password_not_repeated</source>
+                <target>Bad password-repeated.</target>
+            </trans-unit>
+
+
         </body>
     </file>
 </xliff>

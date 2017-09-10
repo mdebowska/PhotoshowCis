@@ -138,7 +138,7 @@ class TagRepository
         if (isset($tag['id']) && ctype_digit((string) $tag['id'])) {
             //delete record
             $id=$tag['id'];
-            return $this->db->delete('tag', ['id'=>$id]);
+            return $this->db->delete('tag', ['id'=>$id]); //in database - photos connected with tags are deleted automatically
         } else {
             throw new \InvalidArgumentException('Invalid parameter type');
         }

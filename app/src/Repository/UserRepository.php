@@ -203,6 +203,23 @@ class UserRepository
     }
 
 
+    /**
+     * Delete record.
+     *
+     * @param array $user
+     *
+     * @return boolean Result
+     */
+//    public function delete($user)
+//    {
+//        if (isset($user['id']) && ctype_digit((string) $user['id'])) {
+//
+//          return $this->db->delete('user', ['id'=>$user['id']]);
+//      } else {
+ //         throw new \InvalidArgumentException('Invalid parameter type');
+//      }
+//  }
+
 
 
     /**

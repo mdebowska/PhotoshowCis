@@ -19,9 +19,7 @@
                         </div>
                         <div class="col-xs-6">
                             <form action='' method='POST'>
-                                {#<input type="text" class="form-control " style="width:40%;" id="exampleInputName2" placeholder="login">#}
-                                {#<input type="text" class="form-control " style="width:40%;" id="exampleInputName1" placeholder="password">#}
-                                {#<input type="submit" value="Sign in" class="form-control">#}
+
 
                                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                                 <a class="btn btn-default" href="{{ url('auth_logout') }}" title="{{ 'auth.logout.label'|trans }}">
