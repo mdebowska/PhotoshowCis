@@ -37,11 +37,11 @@
                 </div>
                 <div class="col-md-6 half-widget">
 
-                    {{ form_start(form_data, { method: 'post', action: url('profile_edit', {'id': profile.id}) }) }}
-                    {{ form_widget(form_data) }}
+                    {{ form_start(formData, { method: 'post', action: url('profile_edit', {'id': profile.id}) }) }}
+                    {{ form_widget(formData) }}
                     <p>{{ 'sure'|trans }}</p>
                     <input type="submit" value="{{ 'action.edit'|trans }}" class="btn btn-success not-widget" />
-                    {{ form_end(form_data) }}
+                    {{ form_end(formData) }}
                 </div>
             </div>
         {% endif %}

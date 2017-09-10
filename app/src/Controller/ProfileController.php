@@ -21,7 +21,6 @@ use Repository\UserdataRepository;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
-
 /**
  * Class PhotoController.
  *
@@ -52,7 +51,7 @@ class ProfileController implements ControllerProviderInterface
             ->method('GET|POST')
             ->assert('id', '[1-9]\d*')
             ->bind('profile_edit');
-        $controller->match('/{id}/delete', [$this,'deleteUserAction'])
+        $controller->match('/{id}/delete', [$this, 'deleteUserAction'])
             ->method('GET|POST')
             ->assert('id', '[1-9]\d*')
             ->bind('profile_delete');
@@ -72,14 +71,14 @@ class ProfileController implements ControllerProviderInterface
         $profileRepository = new ProfileRepository($app['db']);
 
         $userRepository = new UserRepository($app['db']);
-        $logged_user=$userRepository->getLoggedUser($app);
+        $loggedUser = $userRepository->getLoggedUser($app);
 
 
         return $app['twig']->render(
             'profile/index.html.twig',
             [
                 'profiles' => $profileRepository->findAllUsers(),
-                'logged_user' => $logged_user,
+                'loggedUser' => $loggedUser,
             ]
         );
     }
@@ -89,13 +88,13 @@ class ProfileController implements ControllerProviderInterface
      * Index action.
      *
      * @param \Silex\Application $app Silex application
-     *
+     * @param int $page Current page number
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
     public function indexActionPaginated(Application $app, $page = 1)
     {
         $userRepository = new UserRepository($app['db']);
-        $logged_user=$userRepository->getLoggedUser($app);
+        $loggedUser = $userRepository->getLoggedUser($app);
 
         $users = $userRepository->findAllPaginated($page);
 
@@ -104,19 +103,18 @@ class ProfileController implements ControllerProviderInterface
             'profile/index_paginated.html.twig',
             [
                 'profiles' => $users,
-                'logged_user'=>$logged_user,
+                'loggedUser' => $loggedUser,
             ]
         );
     }
-
-
 
 
     /**
      * View action.
      *
      * @param \Silex\Application $app Silex application
-     *
+     * @param int $id Element Id
+     * @param int $page Current page number
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
 
@@ -126,7 +124,7 @@ class ProfileController implements ControllerProviderInterface
         $profileRepository = new ProfileRepository($app['db']);
         $photoRepository = new PhotoRepository($app['db']);
         $userRepository = new UserRepository($app['db']);
-        $logged_user=$userRepository->getLoggedUser($app);
+        $loggedUser = $userRepository->getLoggedUser($app);
 
 
         $profile = $profileRepository->findOneByIdUser($id);
@@ -139,29 +137,30 @@ class ProfileController implements ControllerProviderInterface
                     'message' => 'message.record_not_found',
                 ]
             );
+
             return $app->redirect($app['url_generator']->generate('profile_index'));
         }
 
-        $user_id=$id;
+        $userId = $id;
+
         return $app['twig']->render(
             'profile/view.html.twig',
             [
-                'id'=>$id,
-                'logged_user'=>$logged_user,
+                'id' => $id,
+                'loggedUser' => $loggedUser,
                 'profile' => $profile,
-                'complete_profile'=>$profileRepository->findOneById($id),
-                'photos' => $photoRepository->findAllByUserPaginated($user_id, $page),
+                'complete_profile' => $profileRepository->findOneById($id),
+                'photos' => $photoRepository->findAllByUserPaginated($userId, $page),
             ]
         );
     }
 
 
-
     /**
      * Edit action.
      *
-     * @param \Silex\Application                        $app     Silex application
-     * @param int                                       $id      Record id
+     * @param \Silex\Application $app Silex application
+     * @param int $id Record id
      * @param \Symfony\Component\HttpFoundation\Request $request HTTP Request
      *
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
@@ -176,7 +175,7 @@ class ProfileController implements ControllerProviderInterface
         $userdataRepository = new UserdataRepository($app['db']);
         $userdata = $userdataRepository->findOneByUserId($id);
 
-        $logged_user=$userRepository->getLoggedUser($app);
+        $loggedUser = $userRepository->getLoggedUser($app);
 
 
         if (!$user) {
@@ -191,7 +190,7 @@ class ProfileController implements ControllerProviderInterface
             return $app->redirect($app['url_generator']->generate('home_index'));
         }
 //FORMULARZ - EDYCJA USER
-        if($logged_user['id']==$id or $app['security.authorization_checker']->isGranted('ROLE_ADMIN')) { //jesli to twoj profil albo jestes adminem to zezwol
+        if ($loggedUser['id'] == $id or $app['security.authorization_checker']->isGranted('ROLE_ADMIN')) { //jesli to twoj profil albo jestes adminem to zezwol
             $form = $app['form.factory']->createBuilder(
                 UserType::class,
                 $user,
@@ -213,15 +212,15 @@ class ProfileController implements ControllerProviderInterface
                 return $app->redirect($app['url_generator']->generate('profile_view', ['id' => $id]), 301);
             }
             ////EDYCJA USERDATA
-            $form_data = $app['form.factory']->createBuilder(
+            $formData = $app['form.factory']->createBuilder(
                 UserdataType::class,
                 $userdata,
                 ['userdata_repository' => new UserdataRepository($app['db'])]
             )->getForm();
-            $form_data->handleRequest($request);
+            $formData->handleRequest($request);
 
-            if ($form_data->isSubmitted() && $form_data->isValid()) {
-                $userdataRepository->save($form_data->getData());
+            if ($formData->isSubmitted() && $formData->isValid()) {
+                $userdataRepository->save($formData->getData());
 
                 $app['session']->getFlashBag()->add(
                     'messages',
@@ -233,7 +232,7 @@ class ProfileController implements ControllerProviderInterface
 
                 return $app->redirect($app['url_generator']->generate('profile_view', ['id' => $id]), 301);
             }
-        }else{
+        } else {
             $app['session']->getFlashBag()->add(
                 'messages',
                 [
@@ -248,30 +247,28 @@ class ProfileController implements ControllerProviderInterface
         return $app['twig']->render(
             'profile/edit.html.twig',
             [
-                'logged_user'=>$logged_user,
+                'loggedUser' => $loggedUser,
                 'profile' => $profile,
                 'form' => $form->createView(),
-                'form_data' => $form_data->createView(),
+                'formData' => $formData->createView(),
             ]
         );
     }
 
 
-
     /**
      * Delete action. USER
      *
-     * @param \Silex\Application                        $app     Silex application
-     * @param int                                       $id      Record id
+     * @param \Silex\Application $app Silex application
+     * @param int $id Record id
      * @param \Symfony\Component\HttpFoundation\Request $request HTTP Request
      *
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
-
     public function deleteUserAction(Application $app, $id, Request $request)
     {
         $userRepository = new UserRepository($app['db']);
-        $logged_user=$userRepository->getLoggedUser($app);
+        $loggedUser = $userRepository->getLoggedUser($app);
 
         $user = $userRepository->findOneById($id);
 
@@ -287,7 +284,7 @@ class ProfileController implements ControllerProviderInterface
             return $app->redirect($app['url_generator']->generate('home_index'), 301);
         }
 
-        if($logged_user['id']==$id or $app['security.authorization_checker']->isGranted('ROLE_ADMIN')) { //jesli to twoj profil albo jestes adminem to zezwol
+        if ($loggedUser['id'] == $id or $app['security.authorization_checker']->isGranted('ROLE_ADMIN')) { //jesli to twoj profil albo jestes adminem to zezwol
             $form = $app['form.factory']->createBuilder(
                 FormType::class,
                 $user
@@ -311,7 +308,7 @@ class ProfileController implements ControllerProviderInterface
                     301
                 );
             }
-        }else{
+        } else {
             $app['session']->getFlashBag()->add(
                 'messages',
                 [
@@ -319,17 +316,17 @@ class ProfileController implements ControllerProviderInterface
                     'message' => 'message.it_is_not_your_profile',
                 ]
             );
+
             return $app->redirect($app['url_generator']->generate('home_index'));
         }
+
         return $app['twig']->render(
             'profile/delete.html.twig',
             [
-                'logged_user'=>$logged_user,
+                'loggedUser' => $loggedUser,
                 'user' => $user,
                 'form' => $form->createView(),
             ]
         );
     }
-
-
 }

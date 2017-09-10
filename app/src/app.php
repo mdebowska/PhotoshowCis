@@ -12,7 +12,6 @@ use Silex\Provider\ValidatorServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
 
 
-
 $app = new Application();
 $app->register(new ServiceControllerServiceProvider());
 $app->register(new SessionServiceProvider());
@@ -29,10 +28,9 @@ $app['twig'] = $app->extend('twig', function ($twig, $app) {
     return $twig;
 });
 
-
-
 use Silex\Provider\LocaleServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
+
 // ...
 $app->register(new LocaleServiceProvider());
 $app->register(
@@ -43,17 +41,15 @@ $app->register(
     ]
 );
 $app->extend('translator', function ($translator, $app) {
-    $translator->addResource('xliff', __DIR__.'/../translations/messages.en.xlf', 'en', 'messages');
-    // $translator->addResource('xliff', __DIR__.'/../translations/validators.en.xlf', 'en', 'validators');
-    $translator->addResource('xliff', __DIR__.'/../translations/messages.pl.xlf', 'pl', 'messages');
-    // $translator->addResource('xliff', __DIR__.'/../translations/validators.pl.xlf', 'pl', 'validators');
+    $translator -> addResource('xliff', __DIR__.'/../translations/messages.en.xlf', 'en', 'messages');
+    // $translator->addResource('xliff', __DIR__ . '/../translations/validators.en.xlf', 'en', 'validators');
+    $translator -> addResource('xliff', __DIR__.'/../translations/messages.pl.xlf', 'pl', 'messages');
+    // $translator->addResource('xliff', __DIR__ . '/../translations/validators.pl.xlf', 'pl', 'validators');
 
     return $translator;
 });
 
-
 require_once dirname(dirname(__FILE__)).'/config/db.php';
-
 
 
 $app->register(
@@ -87,8 +83,8 @@ $app->register(
             ['^/auth.+$', 'IS_AUTHENTICATED_ANONYMOUSLY'],
             ['^/registration$', 'IS_AUTHENTICATED_ANONYMOUSLY'],
             ['.+/delete$', 'IS_AUTHENTICATED_FULLY'],
-	    ['.+/edit$', 'IS_AUTHENTICATED_FULLY'],
-	    ['.+/add$', 'IS_AUTHENTICATED_FULLY'],
+            ['.+/edit$', 'IS_AUTHENTICATED_FULLY'],
+            ['.+/add$', 'IS_AUTHENTICATED_FULLY'],
         ],
         'security.role_hierarchy' => [
             'ROLE_ADMIN' => ['ROLE_USER'],
@@ -101,4 +97,3 @@ $app->register(new ValidatorServiceProvider());
 $app->register(new SessionServiceProvider());
 
 return $app;
-

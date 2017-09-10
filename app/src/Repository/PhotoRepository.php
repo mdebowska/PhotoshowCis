@@ -3,8 +3,10 @@
  * Photo repository.
  */
 namespace Repository;
+
 use Doctrine\DBAL\Connection;
 use Utils\Paginator;
+
 /**
  * Class PhotoRepository.
  *
@@ -24,6 +26,7 @@ class PhotoRepository
      * @var \Doctrine\DBAL\Connection $db
      */
     protected $db;
+
     /**
      * PhotoRepository constructor.
      *
@@ -33,6 +36,7 @@ class PhotoRepository
     {
         $this->db = $db;
     }
+
     /**
      * Fetch all records.
      *
@@ -44,6 +48,7 @@ class PhotoRepository
         $queryBuilder->orderBy('publicationDate', 'desc');
         return $queryBuilder->execute()->fetchAll();
     }
+
     /**
      * Get records paginated.
      *
@@ -62,6 +67,7 @@ class PhotoRepository
         $paginator->setMaxPerPage(self::NUM_ITEMS);
         return $paginator->getCurrentPageResults();
     }
+
     /**
      * Find one record.
      *
@@ -80,65 +86,71 @@ class PhotoRepository
         }
         return !$result ? [] : $result;
     }
+
     /**
      *
      *
      * Find all records from user.
      *
-     * @param string $id Element id
+     * @param int $userId id of photos's user
      *
      * @return array|mixed Result
      */
-    public function findAllByUser($user_id)
+    public function findAllByUser($userId)
     {
         $queryBuilder = $this->queryAll();
         $queryBuilder->orderBy('publicationDate', 'desc')
-            ->where('p.user_id = :user_id')
-            ->setParameter(':user_id', $user_id, \PDO::PARAM_INT);
+            ->where('p.userId = :userId')
+            ->setParameter(':userId', $userId, \PDO::PARAM_INT);
         $result = $queryBuilder->execute()->fetchAll();
+
         return !$result ? [] : $result;
     }
+
     /**
      *
      *
      * Find all records from user.
      *
-     * @param string $id Element id
+     * @param int $userId id of photos's user
      *
      * @return array|mixed Result
      */
-    public function findAllByUserIds($user_id)
+    public function findAllByUserIds($userId)
     {
         $queryBuilder = $this->queryAll()->select('p.id');
         $queryBuilder->orderBy('publicationDate', 'desc')
-            ->where('p.user_id = :user_id')
-            ->setParameter(':user_id', $user_id, \PDO::PARAM_INT);
+            ->where('p.userId = :userId')
+            ->setParameter(':userId', $userId, \PDO::PARAM_INT);
         $result = $queryBuilder->execute()->fetchAll();
+
         return !$result ? [] : $result;
     }
+
     /**
      *
      *
      * Find all records paginated from user.
      *
-     * @param string $id Element id
-     *
+     * @param int $userId id of photo's user
+     * @param int $page Current page number
      * @return array|mixed Result
      */
-    public function findAllByUserPaginated($user_id, $page = 1)
+    public function findAllByUserPaginated($userId, $page = 1)
     {
         $countQueryBuilder = $this->queryAll()
             ->select('COUNT(DISTINCT p.id) AS total_results')
             ->setMaxResults(1)
-            ->where('p.user_id = :user_id')
-            ->setParameter(':user_id', $user_id, \PDO::PARAM_INT);
+            ->where('p.userId = :userId')
+            ->setParameter(':userId', $userId, \PDO::PARAM_INT);
         $queryBuilder = $this->queryAll();
         $queryBuilder->orderBy('publicationDate', 'desc')
-            ->where('p.user_id = :user_id')
-            ->setParameter(':user_id', $user_id, \PDO::PARAM_INT);
-        $paginator = new Paginator( $queryBuilder->orderBy('publicationDate', 'desc'), $countQueryBuilder);
+            ->where('p.userId = :userId')
+            ->setParameter(':userId', $userId, \PDO::PARAM_INT);
+        $paginator = new Paginator($queryBuilder->orderBy('publicationDate', 'desc'), $countQueryBuilder);
         $paginator->setCurrentPage($page);
         $paginator->setMaxPerPage(self::NUM_ITEMS);
+
         return $paginator->getCurrentPageResults();
     }
 
@@ -146,32 +158,30 @@ class PhotoRepository
      *
      *
      * Find all records paginated with tag.
-     *
-     * @param string $id Element id
-     *
+     * @param int $tagId id of tag
+     * @param int $page Current page number
      * @return array|mixed Result
      */
-    public function findAllWithTagPaginated($tag_id, $page = 1)
+    public function findAllWithTagPaginated($tagId, $page = 1)
     {
 
         $countQueryBuilder = $this->queryAll()
             ->select('COUNT(DISTINCT p.id) AS total_results')
             ->setMaxResults(1)
-            ->where('pht.tag_id = :tag_id')
-            ->innerJoin('p', 'photo_has_tag', 'pht', 'p.id = pht.photo_id')
-            ->setParameter(':tag_id', $tag_id, \PDO::PARAM_INT);
+            ->where('pht.tagId = :tagId')
+            ->innerJoin('p', 'photo_has_tag', 'pht', 'p.id = pht.photoId')
+            ->setParameter(':tagId', $tagId, \PDO::PARAM_INT);
 
         $queryBuilder = $this->queryAll();
         $queryBuilder->orderBy('publicationDate', 'desc')
-            ->where('pht.tag_id = :tag_id')
-            ->innerJoin('p', 'photo_has_tag', 'pht', 'p.id = pht.photo_id')
-            ->setParameter(':tag_id', $tag_id, \PDO::PARAM_INT);
-        $paginator = new Paginator( $queryBuilder->orderBy('publicationDate', 'desc'), $countQueryBuilder);
+            ->where('pht.tagId = :tagId')
+            ->innerJoin('p', 'photo_has_tag', 'pht', 'p.id = pht.photoId')
+            ->setParameter(':tagId', $tagId, \PDO::PARAM_INT);
+        $paginator = new Paginator($queryBuilder->orderBy('publicationDate', 'desc'), $countQueryBuilder);
         $paginator->setCurrentPage($page);
         $paginator->setMaxPerPage(self::NUM_ITEMS);
+
         return $paginator->getCurrentPageResults();
-
-
     }
 
 
@@ -183,30 +193,27 @@ class PhotoRepository
     protected function queryAll()
     {
         $queryBuilder = $this->db->createQueryBuilder();
-        return $queryBuilder->select('p.id', 'p.title', 'p.source', 'p.user_id', 'u.login', 'p.publicationDate')
+
+        return $queryBuilder->select('p.id', 'p.title', 'p.source', 'p.userId', 'u.login', 'p.publicationDate')
             ->from('photo', 'p')
-            ->innerJoin('p', 'user', 'u', 'p.user_id = u.id')
-            ;
+            ->innerJoin('p', 'user', 'u', 'p.userId = u.id');
     }
 
 
     /**
-     * Save record with tag.
-     *
-     * @param array $bookmark Photo
-     *
-     * @throws \Doctrine\DBAL\DBALException
+     * Save record
+     * @param array $photo Photo
+     * @throws \Exception
      */
     public function save($photo)
     {
         $this->db->beginTransaction();
         unset($photo['login']);
         try {
-
             $tagsIds = isset($photo['tags']) ? $photo['tags'] : [];
             unset($photo['tags']);
 
-            if (isset($photo['id']) && ctype_digit((string) $photo['id'])) {
+            if (isset($photo['id']) && ctype_digit((string)$photo['id'])) {
                 // update record
                 $photoId = $photo['id'];
                 unset($photo['id']);
@@ -215,7 +222,7 @@ class PhotoRepository
                 $this->db->update('photo', $photo, ['id' => $photoId]);
             } else {
                 // add new record
-                $photo['publicationDate']=date('Y-m-d');
+                $photo['publicationDate'] = date('Y-m-d');
 
                 $this->db->insert('photo', $photo);
                 $photoId = $this->db->lastInsertId();
@@ -227,16 +234,13 @@ class PhotoRepository
             throw $e;
         }
     }
-    
-
 
 
     /**
      * Delete record.
      *
      * @param array $photo Photo
-     *
-     * @return boolean Result
+     * @throws \Exception
      */
     public function delete($photo)
     {
@@ -244,14 +248,14 @@ class PhotoRepository
         unset($photo['login']);
         try {
 
-            if (isset($photo['id']) && ctype_digit((string) $photo['id'])) {
+            if (isset($photo['id']) && ctype_digit((string)$photo['id'])) {
                 //delete record
-                $id=$photo['id'];
-                $this->db->delete('rating', ['photo_id'=>$id]);
-                $this->db->delete('comment', ['photo_id'=>$id]);
+                $id = $photo['id'];
+                $this->db->delete('rating', ['photoId' => $id]);
+                $this->db->delete('comment', ['photoId' => $id]);
                 $this->removeLinkedTags($photo['id']);
-                $this->db->delete('photo', ['id'=>$id]);
-	
+                $this->db->delete('photo', ['id' => $id]);
+
             } else {
                 throw new \InvalidArgumentException('Invalid parameter type');
             }
@@ -260,33 +264,7 @@ class PhotoRepository
             $this->db->rollBack();
             throw $e;
         }
-
     }
-
-
-
-
-
-/**
-     * Delete record.
-     *
-     * @param array $photo Photo
-     *
-     * @return boolean Result
-     */
-//    public function delete($photo)
-//    {
-//        if (isset($photo['id']) && ctype_digit((string) $photo['id'])) {
-//            //delete record
-//            $id=$photo['id'];
-//          $this->db->delete('rating', ['photo_id'=>$id]);
-//            $this->db->delete('comment', ['photo_id'=>$id]);
-//            $this->removeLinkedTags($photo['id']);
-//            return $this->db->delete('photo', ['id'=>$id]);
-//        } else {
-//            throw new \InvalidArgumentException('Invalid parameter type');
-//        }
-//    }
 
 
     /**
@@ -299,13 +277,13 @@ class PhotoRepository
     protected function findLinkedTagsIds($photoId)
     {
         $queryBuilder = $this->db->createQueryBuilder()
-            ->select('pht.tag_id')
+            ->select('pht.tagId')
             ->from('photo_has_tag', 'pht')
-            ->where('pht.photo_id = :photo_id')
-            ->setParameter(':photo_id', $photoId, \PDO::PARAM_INT);
+            ->where('pht.photoId = :photoId')
+            ->setParameter(':photoId', $photoId, \PDO::PARAM_INT);
         $result = $queryBuilder->execute()->fetchAll();
 
-        return isset($result) ? array_column($result, 'tag_id') : [];
+        return isset($result) ? array_column($result, 'tagId') : [];
     }
 
     /**
@@ -321,10 +299,11 @@ class PhotoRepository
         $queryBuilder = $this->db->createQueryBuilder()
             ->select('t.name', 't.id')
             ->from('tag', 't')
-            ->where('pht.photo_id = :photo_id')
-            ->innerJoin('t', 'photo_has_tag', 'pht', 't.id = pht.tag_id')
-            ->setParameter(':photo_id', $photoId, \PDO::PARAM_INT);
+            ->where('pht.photoId = :photoId')
+            ->innerJoin('t', 'photo_has_tag', 'pht', 't.id = pht.tagId')
+            ->setParameter(':photoId', $photoId, \PDO::PARAM_INT);
         $result = $queryBuilder->execute()->fetchAll();
+
         return !$result ? [] : $result;
     }
 
@@ -337,7 +316,7 @@ class PhotoRepository
      */
     public function removeLinkedTags($photoId)
     {
-        return $this->db->delete('photo_has_tag', ['photo_id' => $photoId]);
+        return $this->db->delete('photo_has_tag', ['photoId' => $photoId]);
     }
 
     /**
@@ -356,8 +335,8 @@ class PhotoRepository
             $this->db->insert(
                 'photo_has_tag',
                 [
-                    'photo_id' => $photoId,
-                    'tag_id' => $tagId,
+                    'photoId' => $photoId,
+                    'tagId' => $tagId,
                 ]
             );
         }

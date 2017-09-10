@@ -11,17 +11,16 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-//use Validator\Constraints as CustomAssert;
 
 /**
  * Class ProfileType.
- *
  * @package Form
  */
 class ProfileType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @param FormBuilderInterface $builder
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -38,7 +37,7 @@ class ProfileType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank(
                         [
-                            'groups' => ['profile-default']
+                            'groups' => ['profile-default'],
                         ]
                     ),
                     new Assert\Length(
@@ -64,7 +63,7 @@ class ProfileType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank(
                         [
-                            'groups' => ['profile-default']
+                            'groups' => ['profile-default'],
                         ]
                     ),
                     new Assert\Length(
@@ -89,14 +88,14 @@ class ProfileType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank(
                         [
-                            'groups' => ['user-default']
+                            'groups' => ['user-default'],
                         ]
                     ),
                     new Assert\Length(
                         [
                             'min' => 3,
                             'max' => 128,
-                            'groups' => ['profile-default']
+                            'groups' => ['profile-default'],
                         ]
                     ),
                     new Assert\Email(),
@@ -115,13 +114,13 @@ class ProfileType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank(
                         [
-                            'groups' => ['profile-default']
+                            'groups' => ['profile-default'],
                         ]
                     ),
                     new Assert\Length(
                         [
                             'max' => 45,
-                            'groups' => ['profile-default']
+                            'groups' => ['profile-default'],
                         ]
                     ),
                 ],
@@ -139,7 +138,7 @@ class ProfileType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank(
                         [
-                            'groups' => ['profile-default']
+                            'groups' => ['profile-default'],
                         ]
                     ),
                     new Assert\Length(
@@ -154,7 +153,7 @@ class ProfileType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -167,7 +166,7 @@ class ProfileType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getBlockPrefix()
     {

@@ -57,21 +57,17 @@ class CommentRepository
         return !$result ? [] : $result;
     }
 
-    /**
+    /** FindAllOfPhoto($photoId)
      *
-     *
-     * Find all comment of photo.
-     *
-     * @param string $id Element id
-     *
-     * @return array|mixed Result
+     * @param int $photoId Id of searched photo
+     * @return array
      */
-    public function findAllOfPhoto($photo_id)
+    public function findAllOfPhoto($photoId)
     {
         $queryBuilder = $this->queryAllWithAuthor();
         $queryBuilder->orderBy('publicationDate', 'desc')
-            ->where('c.photo_id = :photo_id')
-            ->setParameter(':photo_id', $photo_id, \PDO::PARAM_INT);
+            ->where('c.photoId = :photoId')
+            ->setParameter(':photoId', $photoId, \PDO::PARAM_INT);
         $result = $queryBuilder->execute()->fetchAll();
 
         return !$result ? [] : $result;
@@ -79,19 +75,19 @@ class CommentRepository
 
     /**
      * Get records paginated.
-     *
+     * @param int $photoId Id of searched photo
      * @param int $page Current page number
      *
      * @return array Result
      */
-    public function findAllOfPhotoPaginated($photo_id, $page = 1)
+    public function findAllOfPhotoPaginated($photoId, $page = 1)
     {
 
-        $countQueryBuilder = $this->queryAllOfPhoto($photo_id)
+        $countQueryBuilder = $this->queryAllOfPhoto($photoId)
             ->select('COUNT(DISTINCT c.id) AS total_results')
             ->setMaxResults(1);
 
-        $paginator = new Paginator($this->queryAllOfPhoto($photo_id)->orderBy('publicationDate', 'desc'), $countQueryBuilder);
+        $paginator = new Paginator($this->queryAllOfPhoto($photoId)->orderBy('publicationDate', 'desc'), $countQueryBuilder);
 
         $paginator->setCurrentPage($page);
         $paginator->setMaxPerPage(self::NUM_ITEMS);
@@ -109,7 +105,7 @@ class CommentRepository
     {
         $queryBuilder = $this->db->createQueryBuilder();
 
-        return $queryBuilder->select('c.id', 'c.text', 'c.publicationDate', 'c.user_id', 'c.photo_id')
+        return $queryBuilder->select('c.id', 'c.text', 'c.publicationDate', 'c.userId', 'c.photoId')
             ->from('comment', 'c');
     }
 
@@ -122,38 +118,38 @@ class CommentRepository
     {
         $queryBuilder = $this->db->createQueryBuilder();
 
-        return $queryBuilder->select('c.id', 'c.text', 'c.publicationDate', 'c.user_id', 'c.photo_id', 'u.login')
+        return $queryBuilder->select('c.id', 'c.text', 'c.publicationDate', 'c.userId', 'c.photoId', 'u.login')
             ->from('comment', 'c')
-            ->innerJoin('c', 'user', 'u', 'c.user_id = u.id');
+            ->innerJoin('c', 'user', 'u', 'c.userId = u.id');
     }
 
     /**
      * Query all records.
-     *
+     * @param int $photoId id of Photo
      * @return \Doctrine\DBAL\Query\QueryBuilder Result
      */
-    protected function queryAllOfPhoto($photo_id)
+    protected function queryAllOfPhoto($photoId)
     {
         $queryBuilder = $this->db->createQueryBuilder();
 
-        return $queryBuilder->select('c.id', 'c.text', 'c.publicationDate', 'c.user_id', 'c.photo_id', 'u.login')
+        return $queryBuilder->select('c.id', 'c.text', 'c.publicationDate', 'c.userId', 'c.photoId', 'u.login')
             ->from('comment', 'c')
-            ->where('c.photo_id = :photo_id')
-            ->setParameter(':photo_id', $photo_id, \PDO::PARAM_INT)
-            ->innerJoin('c', 'user', 'u', 'c.user_id = u.id');
+            ->where('c.photoId = :photoId')
+            ->setParameter(':photoId', $photoId, \PDO::PARAM_INT)
+            ->innerJoin('c', 'user', 'u', 'c.userId = u.id');
     }
 
     /**
      * Save record.
      *
-     * @param array $photo Photo
+     * @param array $comment Comment
      *
      * @return boolean Result
      */
     public function save($comment)
     {
 
-        if (isset($comment['id']) && ctype_digit((string) $comment['id'])) {
+        if (isset($comment['id']) && ctype_digit((string)$comment['id'])) {
             // update record
             $id = $comment['id'];
             unset($comment['id']);
@@ -161,7 +157,7 @@ class CommentRepository
             return $this->db->update('comment', $comment, ['id' => $id]);
         } else {
             // add new record
-            $comment['publicationDate']=date('Y-m-d');
+            $comment['publicationDate'] = date('Y-m-d');
             return $this->db->insert('comment', $comment);
         }
     }
@@ -170,17 +166,17 @@ class CommentRepository
     /**
      * Delete record.
      *
-     * @param array $photo Photo
+     * @param array $comment Comment
      *
      * @return boolean Result
      */
 
     public function delete($comment)
     {
-        if (isset($comment['id']) && ctype_digit((string) $comment['id'])) {
+        if (isset($comment['id']) && ctype_digit((string)$comment['id'])) {
             //delete record
-            $id=$comment['id'];
-            return $this->db->delete('comment', ['id'=>$id]);
+            $id = $comment['id'];
+            return $this->db->delete('comment', ['id' => $id]);
         } else {
             throw new \InvalidArgumentException('Invalid parameter type');
         }

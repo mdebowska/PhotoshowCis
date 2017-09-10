@@ -3,12 +3,12 @@
  * Tag type.
  */
 namespace Form;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Validator\Constraints as CustomAssert;
 
 /**
@@ -19,7 +19,8 @@ use Validator\Constraints as CustomAssert;
 class TagType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @param FormBuilderInterface $builder
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -31,7 +32,7 @@ class TagType extends AbstractType
                 'required'   => true,
                 'attr' => [
                     'max_length' => 45,
-                    'class' => 'form-control'
+                    'class' => 'form-control',
                 ],
                 'constraints' => [
                     new Assert\NotBlank(
@@ -54,13 +55,10 @@ class TagType extends AbstractType
                 ],
             ]
         );
-//            $builder->get('tags')->addModelTransformer(
-//                new TagsDataTransformer($options['tag_repository'])
-//            );
-//        }
     }
+
     /**
-     * {@inheritdoc}
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -71,8 +69,9 @@ class TagType extends AbstractType
             ]
         );
     }
+
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getBlockPrefix()
     {

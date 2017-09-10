@@ -19,7 +19,6 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 
-
 /**
  * Class TagController.
  *
@@ -41,7 +40,7 @@ class TagController implements ControllerProviderInterface
             ->method('GET|POST')
             ->value('page', 1)
             ->bind('tag_index');
-        $controller->match('/{id}/delete', [$this,'deleteAction'])
+        $controller->match('/{id}/delete', [$this, 'deleteAction'])
             ->method('GET|POST')
             ->assert('id', '[1-9]\d*')
             ->bind('tag_delete');
@@ -57,40 +56,39 @@ class TagController implements ControllerProviderInterface
      * Index action.
      *
      * @param \Silex\Application $app Silex application
-     *
+     * @param int $page Current page number
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
     public function indexAction(Application $app, $page = 1)
     {
         $tagRepository = new TagRepository($app['db']);
-        $tags=$tagRepository->findAllPaginated($page);
+        $tags = $tagRepository->findAllPaginated($page);
         $userRepository = new UserRepository($app['db']);
-        $logged_user=$userRepository->getLoggedUser($app);
+        $loggedUser = $userRepository->getLoggedUser($app);
 
         return $app['twig']->render(
             'tag/index.html.twig',
             [
-                'logged_user'=>$logged_user,
-                'tags' => $tags
+                'loggedUser' => $loggedUser,
+                'tags' => $tags,
             ]
         );
     }
-
-
 
 
     /**
      * Tagaction.
      *
      * @param \Silex\Application $app Silex application
-     *
+     * @param int $id Element Id
+     * @param int $page Current page number
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
 
     public function tagAction(Application $app, $id, $page = 1)
     {
         $tagRepository = new TagRepository($app['db']);
-        $tags=$tagRepository->findAllPaginated($page);
+        $tags = $tagRepository->findAllPaginated($page);
 
         return $app['twig']->render(
             'tag/index.html.twig',
@@ -103,17 +101,16 @@ class TagController implements ControllerProviderInterface
     /**
      * Delete action.
      *
-     * @param \Silex\Application                        $app     Silex application
-     * @param int                                       $id      Record id
+     * @param \Silex\Application $app Silex application
+     * @param int $id Record id
      * @param \Symfony\Component\HttpFoundation\Request $request HTTP Request
      *
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
-
     public function deleteAction(Application $app, $id, Request $request)
     {
         $userRepository = new UserRepository($app['db']);
-        $logged_user=$userRepository->getLoggedUser($app);
+        $loggedUser = $userRepository->getLoggedUser($app);
 
         $tagRepository = new TagRepository($app['db']);
         $tag = $tagRepository->findOneById($id);
@@ -147,9 +144,10 @@ class TagController implements ControllerProviderInterface
                         'message' => 'message.element_successfully_deleted',
                     ]
                 );
+
                 return $app->redirect($app['url_generator']->generate('tag_index'), 301);
             }
-        }else{
+        } else {
             $app['session']->getFlashBag()->add(
                 'messages',
                 [
@@ -157,6 +155,7 @@ class TagController implements ControllerProviderInterface
                     'message' => 'message.you_are_not_an_admin',
                 ]
             );
+
             return $app->redirect($app['url_generator']->generate('home_index'), 301);
         }
 
@@ -164,7 +163,7 @@ class TagController implements ControllerProviderInterface
         return $app['twig']->render(
             'tag/delete.html.twig',
             [
-                'logged_user'=>$logged_user,
+                'loggedUser' => $loggedUser,
                 'tag' => $tag,
                 'form' => $form->createView(),
             ]
@@ -176,20 +175,17 @@ class TagController implements ControllerProviderInterface
      * Add action.
      *
      * @param \Silex\Application $app Silex application
-     *
+     * @param \Symfony\Component\HttpFoundation\Request $request HTTP Request
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
-
-
     public function addAction(Application $app, Request $request)
     {
         $userRepository = new UserRepository($app['db']);
-        $logged_user=$userRepository->getLoggedUser($app);
+        $loggedUser = $userRepository->getLoggedUser($app);
 
         $tag = [];
 
-        if($logged_user['id']) {
-
+        if ($loggedUser['id']) {
             $form = $app['form.factory']->createBuilder(
                 TagType::class,
                 $tag,
@@ -211,10 +207,9 @@ class TagController implements ControllerProviderInterface
                     ]
                 );
 
-
-                return $app->redirect($app['url_generator']->generate('photo_add', ['id' => $logged_user['id']]), 301);
+                return $app->redirect($app['url_generator']->generate('photo_add', ['id' => $loggedUser['id']]), 301);
             }
-        }else{
+        } else {
             $app['session']->getFlashBag()->add(
                 'messages',
                 [
@@ -222,18 +217,18 @@ class TagController implements ControllerProviderInterface
                     'message' => 'message.you_have_to_log_in',
                 ]
             );
+
             return $app->redirect($app['url_generator']->generate('home_index'));
         }
+
         return $app['twig']->render(
             'tag/add.html.twig',
             [
-                'logged_user'=>$logged_user,
-                'id'=>$logged_user['id'],
+                'loggedUser' => $loggedUser,
+                'id' => $loggedUser['id'],
                 'tag' => $tag,
                 'form' => $form->createView(),
             ]
         );
-
     }
 }
-

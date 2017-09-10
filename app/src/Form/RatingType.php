@@ -1,30 +1,28 @@
 <?php
 /**
- * Photo type.
+ * Rating type.
  */
 namespace Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 /**
- * Class PhotoType.
- *
+ * Class RatingType.
  * @package Form
  */
 class RatingType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @param FormBuilderInterface $builder
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if(!isset($options['data']) || !isset($options['data']['id'])) { //zeby kazdy mogl tylko raz ocenic zdjecie
+        if (!isset($options['data']) || !isset($options['data']['id'])) {
             $builder->add(
                 'value',
                 ChoiceType::class,
@@ -33,8 +31,7 @@ class RatingType extends AbstractType
                     'required' => true,
                     'attr' => array('class' => 'form-control'),
                     'placeholder' => 'choose_rating',
-//                    'choices' => [1, 2, 3, 4, 5],
-                    'choices'=>$this->prepareValuesForChoices(),
+                    'choices' => $this->prepareValuesForChoices(),
                     'constraints' => [
                         new Assert\NotBlank(
                             ['groups' => ['rating-default']]
@@ -46,7 +43,7 @@ class RatingType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -59,13 +56,16 @@ class RatingType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getBlockPrefix()
     {
         return 'rating_type';
     }
 
+    /**
+     * @return array
+     */
     protected function prepareValuesForChoices()
     {
         $values = ['1', '2', '3', '4', '5'];
@@ -77,5 +77,4 @@ class RatingType extends AbstractType
 
         return $choices;
     }
-
 }

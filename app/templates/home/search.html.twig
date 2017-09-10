@@ -18,13 +18,13 @@
             <div class="center-block container" id="search">
                 <div class="row">
                     <div class="widget col-md-10" id="search">
-                    {{ form_start(form_search, { method: 'post', action: url('search_action') }) }}
-                    {{ form_widget(form_search) }}
+                    {{ form_start(formSearch, { method: 'post', action: url('search_action') }) }}
+                    {{ form_widget(formSearch) }}
                     </div>
                     <div class=" col-md-2">
                         <input type="submit" value="{{ 'action.search'|trans }}" class="btn btn-success margin-0" />
                     </div>
-                    {{ form_end(form_search) }}
+                    {{ form_end(formSearch) }}
 
 
                 </div>

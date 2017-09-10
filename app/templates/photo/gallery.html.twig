@@ -25,7 +25,7 @@
                             <figure class="text-on-figure-bottom">
                                 <img src="{{ asset('uploads/photos/' ~ row.source) }}" alt="{{ row.title }}" class="text-on-figure-bottom">
                                 <figcaption class="text-on-figure-bottom half-black-background row remove-margin">
-                                   {% if is_granted('IS_AUTHENTICATED_FULLY') and (row.user_id==logged_user['id'] or is_granted('ROLE_ADMIN')) %}
+                                   {% if is_granted('IS_AUTHENTICATED_FULLY') and (row.userId==loggedUser['id'] or is_granted('ROLE_ADMIN')) %}
                                         {#//jesli jestes zalogowany i.. to jesteś ty#}
                                        <div class="col-xs-6 remove-padding">
                                        <div class="buttons remove-padding">
@@ -43,9 +43,9 @@
                                        </div>
                                        </div>
                                    {% endif %}
-                                    {% if logged_user['id'] is not defined or row.user_id!=logged_user['id'] %}
+                                    {% if loggedUser['id'] is not defined or row.userId!=loggedUser['id'] %}
                                        <div class="remove-padding last-row-item">
-                                           {{ 'by:'|trans }}<a href="{{  url('profile_view', {'id':row.user_id}) }}" title="{{ row.login }}"  class="author">
+                                           {{ 'by:'|trans }}<a href="{{  url('profile_view', {'id':row.userId}) }}" title="{{ row.login }}"  class="author">
                                                {% if row.login|length<9 %}
                                                    {{ row.login }}
                                                {% else %}

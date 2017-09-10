@@ -51,7 +51,7 @@ class ProfileRepository
     }
 
     /**
-     * Fetch all records.
+     * Fetch all records - just users.
      *
      * @return array Result
      */
@@ -101,7 +101,7 @@ class ProfileRepository
     }
 
     /**
-     * Find one record.
+     * Find one record by id of user
      *
      * @param string $id Element id
      *
@@ -118,8 +118,6 @@ class ProfileRepository
     }
 
 
-
-
     /**
      * Query all records.
      *
@@ -131,55 +129,53 @@ class ProfileRepository
 
         return $queryBuilder->select('u.id', 'u.login', 'u.mail', 'u.password', 'ud.name', 'ud.surname')
             ->from('user', 'u')
-            ->innerJoin('u', 'userdata', 'ud', 'u.id = ud.user_id');
+            ->innerJoin('u', 'userdata', 'ud', 'u.id = ud.userId');
     }
 
     /**
-     * Query all records.
+     * Query all records - users.
      *
      * @return \Doctrine\DBAL\Query\QueryBuilder Result
      */
     protected function queryAllUsers()
     {
         $queryBuilder = $this->db->createQueryBuilder();
+
         return $queryBuilder->select('id', 'login', 'password', 'mail')
             ->from('user', 'u');
     }
 
 
-
-
-
-
     /**
-     * Save record.
+     * Save edited record.
      *
      * @param array $profile Profile
      *
      * @return boolean Result
      */
-    public function save($profile) //tak wlasciwie to tylko edycja - dodawanie jest w rejestracji -> UserRepository
+    public function save($profile)
     {
-        if (isset($profile['id']) && ctype_digit((string) $profile['id'])) {
+        if (isset($profile['id']) && ctype_digit((string)$profile['id']))
+        {
             // update record
             $id = $profile['id'];
             unset($profile['id']);
-            $profile_data = $profile;
+            $profileData = $profile;
 
             unset($profile['name']);
             unset($profile['surname']);
 
-            unset($profile_data['login']);
-            unset($profile_data['password']);
-            unset($profile_data['mail']);
+            unset($profileData['login']);
+            unset($profileData['password']);
+            unset($profileData['mail']);
 
-            return $this->db->update('user', $profile, ['id' => $id]) && $this->db->update('userdata', $profile_data, ['user_id' => $id]);
+            return $this->db->update('user', $profile, ['id' => $id]) && $this->db->update('userdata', $profileData, ['userId' => $id]);
         } else {
-            // add new record - to sie nigdy nie wykonuje
-            $user['role_id']=2;
-            $userdata['user_id']=$user['id'];
-            return $this->db->insert('user', $user)&& $this->db->insert('userdata', $userdata);
+            // add new record - to nie
+            $user['roleId'] = 2;
+            $userdata['userId'] = $user['id'];
+
+            return $this->db->insert('user', $user) && $this->db->insert('userdata', $userdata);
         }
     }
-
 }

@@ -10,12 +10,12 @@
         <div class="container">
             <header>
                 <div class="col-md-3">
-                    <a href="{{ url('profile_view', {'id':photo.user_id}) }}" title="{{ 'label.go_to_gallery'|trans }}" class="btn btn-default">
+                    <a href="{{ url('profile_view', {'id':photo.userId}) }}" title="{{ 'label.go_to_gallery'|trans }}" class="btn btn-default">
                         <span class="fa fa-mail-reply" aria-hidden="true"></span>
                         {{ 'label.go_to_gallery'|trans}} {{photo.login}}
                     </a>
                     <div class="col-md-6 remove-padding">
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') and logged_user.id==photo.user_id or is_granted('ROLE_ADMIN')%}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') and loggedUser.id==photo.userId or is_granted('ROLE_ADMIN')%}
 
                         <div class="col-md-5 remove-padding">
 
@@ -85,7 +85,7 @@
                                 <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 comment">
                                     <div class="col-md-3">
                                         <p>{{ row.login}}</p>
-                                    {#By: <a href="{{  url('profile_view', {'id':row.user_id}) }}" class="">link{{  }}</a>#}
+                                    {#By: <a href="{{  url('profile_view', {'id':row.userId}) }}" class="">link{{  }}</a>#}
                                         <p>{{ row.publicationDate}}</p>
                                     </div>
                                     <div class="col-md-8">

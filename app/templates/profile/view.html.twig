@@ -19,7 +19,7 @@
                             <p><span class="description">{{ 'surname'|trans }}:</span> {% if complete_profile.surname|length %}{{ complete_profile.surname }}{% endif %}</p>
                             {% if is_granted('ROLE_ADMIN') %}<p><span class="description">{{ 'mail'|trans }}:</span> {{ profile.mail }}</p> {% endif %}
                         </div>
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') and (id==logged_user['id'] or is_granted('ROLE_ADMIN')) %}
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') and (id==loggedUser['id'] or is_granted('ROLE_ADMIN')) %}
                         <div class="col-xs-2 last-row-item">
 
                                 <a href="{{ url('profile_edit', {'id':id}) }}" title="{{ 'edit'|trans }} {{ 'profile'|trans }}" class="btn btn-primary btn-xs">
@@ -45,7 +45,7 @@
                         <header>
                             <div class="row">
                                 <div class="col-md-3">
-                                    {% if is_granted('IS_AUTHENTICATED_FULLY') and profile.id==logged_user['id']  %}
+                                    {% if is_granted('IS_AUTHENTICATED_FULLY') and profile.id==loggedUser['id']  %}
                                     <a href="{{ url('photo_add') }}" class="btn btn-success btn-sm"> {#dla braku paginacji: href="./add"#}
                                         {#, {'id':profile.id})#}
                                         <i class="glyphicon glyphicon-plus"></i>

@@ -17,8 +17,10 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class AuthController implements ControllerProviderInterface
 {
+
     /**
-     * {@inheritdoc}
+     * @param Application $app
+     * @return mixed
      */
     public function connect(Application $app)
     {

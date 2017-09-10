@@ -10,7 +10,7 @@
         <div class="container">
             <header>
                 <div class="col-xs-3">
-                    <a href="{{ url('profile_view', {'id':photo.user_id}) }}" title="{{ 'label.go_to_gallery'|trans }}" class="btn btn-default">
+                    <a href="{{ url('profile_view', {'id':photo.userId}) }}" title="{{ 'label.go_to_gallery'|trans }}" class="btn btn-default">
                         <span class="fa fa-mail-reply" aria-hidden="true"></span>
                         <i class="glyphicon glyphicon-arrow-left"></i>
                         {{ 'label.go_to_gallery'|trans}} {{photo.login}}{{ 's_gallery'|trans}}
@@ -18,7 +18,7 @@
 
 
                     <div class="col-md-6 col-sm-8 col-xs-12 remove-padding margin-5v">
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') and logged_user.id==photo.user_id or is_granted('ROLE_ADMIN')%}
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') and loggedUser.id==photo.userId or is_granted('ROLE_ADMIN')%}
                         <div class="buttons remove-padding">
 
                             <a href="{{ url('photo_edit', {'id':photo.id}) }}" class="btn btn-primary btn-xs">
@@ -68,7 +68,7 @@
                         </div>
                         {% if is_granted('IS_AUTHENTICATED_FULLY')%}
                             <div class="col-md-2 margin-15">
-                                {% if user_have_rated == false %}
+                                {% if userHaveRated == false %}
                                     {{ form_start(form, { method: 'post', action: url('photo_view', {'id':id}) }) }}
                                     {{ form_widget(form) }}
                                     <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-success margin-0" />
@@ -104,13 +104,13 @@
                                                 <li>
                                                     <div class="row comment">
                                                         <div class="col-xs-2 info">
-                                                            {{ 'by:'|trans }}<a href="{{  url('profile_view', {'id':row.user_id}) }}" class="">{{ row.login}}</a>
+                                                            {{ 'by:'|trans }}<a href="{{  url('profile_view', {'id':row.userId}) }}" class="">{{ row.login}}</a>
                                                             <p>{{ row.publicationDate}}</p>
                                                         </div>
                                                         <div class="col-xs-8">
                                                             <p>{{ row.text }}</p>
                                                         </div>
-                                                        {% if is_granted('IS_AUTHENTICATED_FULLY') and (row.user_id==logged_user['id'] or is_granted('ROLE_ADMIN')) %}
+                                                        {% if is_granted('IS_AUTHENTICATED_FULLY') and (row.userId==loggedUser['id'] or is_granted('ROLE_ADMIN')) %}
                                                             <div class="col-xs-1 remove-padding last-row-item remove-padding">
                                                                <a href="{{ url('comment_delete', {'id':row.id}) }}" class="btn btn-danger btn-xs last-row-item">
                                                                   <i class="glyphicon glyphicon-trash"></i>

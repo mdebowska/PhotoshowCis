@@ -3,6 +3,7 @@
  * Photo type.
  */
 namespace Form;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -10,15 +11,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 /**
  * Class PhotoType.
- *
  * @package Form
  */
 class PhotoType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @param FormBuilderInterface $builder
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -27,10 +29,10 @@ class PhotoType extends AbstractType
             TextType::class,
             [
                 'label' => 'label.title',
-                'required'   => true,
+                'required' => true,
                 'attr' => [
                     'max_length' => 45,
-                    'class' => 'form-control'
+                    'class' => 'form-control',
                 ],
                 'constraints' => [
                     new Assert\NotBlank(
@@ -58,7 +60,7 @@ class PhotoType extends AbstractType
                 'multiple' => true,
             ]
         );
-        if(!isset($options['data']) || !isset($options['data']['id'])){ //zeby dla edycji zdjecia nie bralo pod uwage sciezki
+        if (!isset($options['data']) || !isset($options['data']['id'])) {
             $builder->add(
                 'source',
                 FileType::class,
@@ -87,31 +89,34 @@ class PhotoType extends AbstractType
                     ],
                 ]
             );
-//            $builder->get('tags')->addModelTransformer(
-//                new TagsDataTransformer($options['tag_repository'])
-//            );
         }
     }
+
     /**
-     * {@inheritdoc}
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             [
                 'validation_groups' => ['photo-default'],
-//                'photo_repository' => null,
                 'tag_repository' => null,
             ]
         );
     }
+
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getBlockPrefix()
     {
         return 'photo_type';
     }
+
+    /**
+     * @param $tagRepository
+     * @return array
+     */
     protected function prepareTagsForChoices($tagRepository)
     {
         $tags = $tagRepository->findAll();
@@ -119,6 +124,7 @@ class PhotoType extends AbstractType
         foreach ($tags as $tag) {
             $choices[$tag['name']] = $tag['id'];
         }
+
         return $choices;
     }
 }

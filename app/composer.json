@@ -24,6 +24,9 @@
         "symfony/validator": "~3.3",
         "doctrine/dbal": "^2.5"
     },
+    "require-dev": {
+        "phpdocumentor/phpdocumentor": "2.*"
+    },
     "autoload": {
         "psr-0": { "": "src/" }
     },

@@ -31,18 +31,18 @@ class RatingRepository
      *
      * Find average records for photo.
      *
-     * @param string $id Element id
+     * @param string $photoId id of photo
      *
      * @return array|mixed Result
      */
 
-    public function AverageRaringForPhoto($photo_id)
+    public function AverageRaringForPhoto($photoId)
     {
-        $query = 'SELECT ROUND(AVG(`value`)) FROM `15_debowska`.`rating` WHERE photo_id= :photo_id';
-        $statement = $this->db->prepare($query);
-        $statement->bindValue('photo_id', $photo_id, \PDO::PARAM_INT);
-        $statement->execute();
-        $result = $statement->fetch(\PDO::FETCH_ASSOC);
+        $queryBuilder = $this->queryAll();
+        $queryBuilder->where('r.photoId = :photoId')
+            ->select("avg(r.value)")
+            ->setParameter(':photoId', $photoId);
+        $result = $queryBuilder->execute()->fetch();
 
         return !$result ? [] : current($result);
     }
@@ -53,22 +53,21 @@ class RatingRepository
      *
      * Check if user rated photo.
      *
-     * @param string $id Element id
-     *
+     * @param int $photoId id of photo
+     * @param int $userId id of user
      * @return array|mixed Result
      */
-
-    public function CheckIfUserRatedPhoto($photo_id, $user_id)
+    public function CheckIfUserRatedPhoto($photoId, $userId)
     {
 
         $queryBuilder = $this->queryAll();
-        $queryBuilder->where('r.photo_id = :photo_id')
-            ->setParameter(':photo_id', $photo_id);
+        $queryBuilder->where('r.photoId = :photoId')
+            ->setParameter(':photoId', $photoId);
         $results = $queryBuilder->execute()->fetchAll();
 
 
         foreach ($results as $result){
-            if($result['user_id']===$user_id){
+            if($result['userId']===$userId){
                 return true;
             }
         }
@@ -105,7 +104,7 @@ class RatingRepository
     {
         $queryBuilder = $this->db->createQueryBuilder();
 
-        return $queryBuilder->select('r.id', 'r.value', 'r.photo_id', 'r.user_id')
+        return $queryBuilder->select('r.id', 'r.value', 'r.photoId', 'r.userId')
             ->from('rating', 'r');
 
     }

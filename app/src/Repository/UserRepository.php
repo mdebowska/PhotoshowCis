@@ -9,8 +9,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Utils\Paginator;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-
 
 /**
  * Class UserRepository.
@@ -74,7 +72,6 @@ class UserRepository
         $paginator->setMaxPerPage(self::NUM_ITEMS);
 
         return $paginator->getCurrentPageResults();
-
     }
 
     /**
@@ -94,11 +91,10 @@ class UserRepository
         return !$result ? [] : $result;
     }
 
-
     /**
-     * Find one record.
+     * Find one record by login
      *
-     * @param string $id Element id
+     * @param string $login Login
      *
      * @return array|mixed Result
      */
@@ -125,101 +121,86 @@ class UserRepository
         return $queryBuilder->select('u.id', 'u.login', 'u.mail')
             ->from('user', 'u');
     }
+
     /**
-     * Save record.
-     *
-     * @return boolean Result
+     * Save Record
+     * @param Application $app
+     * @param array $user User
+     * @return int
      */
     public function save(Application $app, $user)  //function to edit and add
     {
-        if (isset($user['id']) && ctype_digit((string) $user['id'])) {
+        if (isset($user['id']) && ctype_digit((string)$user['id'])) {
             // update record
             $id = $user['id'];
             unset($user['id']);
             $user['password'] = $app['security.encoder.bcrypt']->encodePassword($user['password'], '');
+
             return $this->db->update('user', $user, ['id' => $id]);
         } else {
             // add new record
-            $user['role_id']=2;
+            $user['roleId'] = 2;
             $user['password'] = $app['security.encoder.bcrypt']->encodePassword($user['password'], '');
+
             return $this->db->insert('user', $user);
         }
     }
+
+    /**
+     * @param array $user User
+     * @return int
+     */
     public function saveEmptyData($user)  //
     {
 
-            $userdata['user_id']=$user['id'];
-            $userdata['name']='';
-            $userdata['surname']='';
-            return $this->db->insert('userdata', $userdata); //$this->db->insert('user', $user)&&
+        $userdata['userId'] = $user['id'];
+        $userdata['name'] = '';
+        $userdata['surname'] = '';
 
+        return $this->db->insert('userdata', $userdata); //$this->db->insert('user', $user)&&
     }
-
 
 
     /**
      * Delete User with Userdata, All photos by user, All retiring.
-     *
+     * @param Application $app
      * @param array $user
-     *
-     * @return boolean Result
+     * @throws \Exception
      */
     public function deleteUser(Application $app, $user)
     {
-
-	$this->db->beginTransaction();
+        $this->db->beginTransaction();
         try {
+            if (isset($user['id']) && ctype_digit((string)$user['id'])) {
 
-        	if (isset($user['id']) && ctype_digit((string) $user['id'])) {
+                $id = $user['id'];
+                $photoRepository = new PhotoRepository($app['db']);
+                $photoIds = $photoRepository->findAllByUserIds($user['id']);
 
-            	    $id=$user['id'];
-	            $photoRepository = new PhotoRepository($app['db']);
-	            $photo_ids=$photoRepository->findAllByUserIds($user['id']);
+                $this->db->delete('rating', ['userId' => $id]);
+                $this->db->delete('comment', ['userId' => $id]);
 
-	            $this->db->delete('rating', ['user_id'=>$id]);
-	            $this->db->delete('comment', ['user_id'=>$id]);
+                if ($photoIds) {
+                    foreach ($photoIds as $photoId) {
+                        $this->db->delete('rating', ['photoId' => $photoId['id']]);
+                        $this->db->delete('comment', ['photoId' => $photoId['id']]);
+                        $photoRepository->removeLinkedTags($photoId['id']);
+                    }
+                }
+                $this->db->delete('photo', ['userId' => $id]);
+                $this->db->delete('userdata', ['userId' => $id]);
+                $this->db->delete('user', ['id' => $id]);
 
-	            if($photo_ids){
-	                foreach ($photo_ids as $photo_id){
-	                    $this->db->delete('rating', ['photo_id'=>$photo_id['id']]);
-	                    $this->db->delete('comment', ['photo_id'=>$photo_id['id']]);
-	                    $photoRepository->removeLinkedTags($photo_id['id']);
-	                }
-	            }
-	            $this->db->delete('photo', ['user_id'=>$id]);
-	            $this->db->delete('userdata', ['user_id'=>$id]);
-	            $this->db->delete('user', ['id'=>$id]);
 
-	
-	        } else {
-        	   	 throw new \InvalidArgumentException('Invalid parameter type');
-	        }
-		$this->db->commit();
-	} catch (Exception $e) {
+            } else {
+                throw new \InvalidArgumentException('Invalid parameter type');
+            }
+            $this->db->commit();
+        } catch (Exception $e) {
             $this->db->rollBack();
             throw $e;
-       }
-
+        }
     }
-
-
-    /**
-     * Delete record.
-     *
-     * @param array $user
-     *
-     * @return boolean Result
-     */
-//    public function delete($user)
-//    {
-//        if (isset($user['id']) && ctype_digit((string) $user['id'])) {
-//
-//          return $this->db->delete('user', ['id'=>$user['id']]);
-//      } else {
- //         throw new \InvalidArgumentException('Invalid parameter type');
-//      }
-//  }
-
 
 
     /**
@@ -295,7 +276,7 @@ class UserRepository
      *
      * @return array Result
      */
-    public function getUserRoles($user_id)
+    public function getUserRoles($userId)
     {
         $roles = [];
 
@@ -303,9 +284,9 @@ class UserRepository
             $queryBuilder = $this->db->createQueryBuilder();
             $queryBuilder->select('r.name')
                 ->from('user', 'u')
-                ->innerJoin('u', 'role', 'r', 'u.role_id = r.id')
+                ->innerJoin('u', 'role', 'r', 'u.roleId = r.id')
                 ->where('u.id = :id')
-                ->setParameter(':id', $user_id, \PDO::PARAM_INT);
+                ->setParameter(':id', $userId, \PDO::PARAM_INT);
             $result = $queryBuilder->execute()->fetchAll();
 
             if ($result) {
@@ -321,42 +302,37 @@ class UserRepository
 
     /**
      * Gets logged user.
-     *
-     * @param integer $userId User ID
-     * @throws \Doctrine\DBAL\DBALException
+     * @param Application $app
      *
      * @return array Result
      */
     public function getLoggedUser(Application $app)
     {
-        $logged_user=[];
+        $loggedUser = [];
 
         $token = $app['security.token_storage']->getToken();
 
 
         if (null !== $token) {
             $user = $token->getUser();
-            $user=$this->getUserByLogin($user);
-            $logged_user=$user;
+            $user = $this->getUserByLogin($user);
+            $loggedUser = $user;
 
-            if($logged_user){
-
-                $logged_user['id'] = $user['id'];
-                $logged_role = $this->getUserRoles($logged_user['id']);
-                $logged_user['role'] = $logged_role[0];
+            if ($loggedUser) {
+                $loggedUser['id'] = $user['id'];
+                $loggedRole = $this->getUserRoles($loggedUser['id']);
+                $loggedUser['role'] = $loggedRole[0];
             }
         }
-        return $logged_user;
 
+        return $loggedUser;
     }
-
-
 
     /**
      * Find for uniqueness.
      *
-     * @param string          $name Element name
-     * @param int|string|null $id   Element id
+     * @param string $login Element login
+     * @param int|string|null $id Element id
      *
      * @return array Result
      */
@@ -372,6 +348,4 @@ class UserRepository
 
         return $queryBuilder->execute()->fetchAll();
     }
-
-
 }

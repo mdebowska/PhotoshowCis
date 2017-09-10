@@ -46,27 +46,27 @@ class HomeController implements ControllerProviderInterface
 
     /**
      * Index action.
-     *
      * @param \Silex\Application $app Silex application
-     *
+     * @param \Symfony\Component\HttpFoundation\Request $request HTTP Request
+     * @param int $page Current page number
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
     public function indexAction(Application $app, Request $request, $page = 1)
     {
         $userRepository = new UserRepository($app['db']);
-        $logged_user=$userRepository->getLoggedUser($app);
+        $loggedUser = $userRepository->getLoggedUser($app);
 
 
-
-        $photos=[];
-        if ($logged_user) {
+        $photos = [];
+        if ($loggedUser) {
             $photoRepository = new PhotoRepository($app['db']);
             $photos = $photoRepository->findAllPaginated($page);
         }
 
-        return $app['twig']->render('home/index.html.twig',
+        return $app['twig']->render(
+            'home/index.html.twig',
             [
-                'logged_user'=>$logged_user,
+                'loggedUser' => $loggedUser,
                 'photos' => $photos,
             ]
         );
@@ -75,13 +75,10 @@ class HomeController implements ControllerProviderInterface
 
     /**
      * Registration action.
-     *
      * @param \Silex\Application $app Silex application
-     *
+     * @param \Symfony\Component\HttpFoundation\Request $request HTTP Request
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
-
-
     public function registrationAction(Application $app, Request $request) //like add User and userdata
     {
 
@@ -95,11 +92,11 @@ class HomeController implements ControllerProviderInterface
 
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository = new userRepository($app['db']);
-            $user=$form->getData();
+            $user = $form->getData();
             $userRepository->save($app, $user);
 
             //tworzenie pustego imienia i nazwiska dla uzytkownika
-            $user=$userRepository->findOneByLoginUser($user['login']);
+            $user = $userRepository->findOneByLoginUser($user['login']);
             $userRepository->saveEmptyData($user);
 
             $app['session']->getFlashBag()->add(
@@ -112,6 +109,7 @@ class HomeController implements ControllerProviderInterface
 
             return $app->redirect($app['url_generator']->generate('home_index'), 301);
         }
+
         return $app['twig']->render(
             'home/registration.html.twig',
             [
@@ -119,40 +117,35 @@ class HomeController implements ControllerProviderInterface
                 'form' => $form->createView(),
             ]
         );
-
     }
 
     /**
      * Search action.
-     *
      * @param \Silex\Application $app Silex application
-     *
+     * @param \Symfony\Component\HttpFoundation\Request $request HTTP Request
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
-
-
     public function searchAction(Application $app, Request $request)
     {
         $userRepository = new UserRepository($app['db']);
-        $logged_user=$userRepository->getLoggedUser($app);
+        $loggedUser = $userRepository->getLoggedUser($app);
 
-        $search=[];
-        $form_search = $app['form.factory']->createBuilder(
+        $search = [];
+        $formSearch = $app['form.factory']->createBuilder(
             SearchType::class,
             $search
         )->getForm();
-        $form_search->handleRequest($request);
+        $formSearch->handleRequest($request);
 
-        if ($form_search->isSubmitted() && $form_search->isValid()) {
+        if ($formSearch->isSubmitted() && $formSearch->isValid()) {
+            $tag = $formSearch->getData();
 
-            $tag = $form_search->getData();
-
-            if($tag['category']=='photo'){
+            if ($tag['category'] == 'photo') {
                 $tagRepository = new TagRepository($app['db']);
-                $tag=$tagRepository->findIdByName($tag['value']);
-                if($tag){
+                $tag = $tagRepository->findIdByName($tag['value']);
+                if ($tag) {
                     return $app->redirect($app['url_generator']->generate('photo_tag', ['id' => $tag['id']]), 301);
-                }else{
+                } else {
                     $app['session']->getFlashBag()->add(
                         'messages',
                         [
@@ -161,14 +154,13 @@ class HomeController implements ControllerProviderInterface
                         ]
                     );
                 }
-            }elseif ($tag['category']=='user'){
+            } elseif ($tag['category'] == 'user') {
                 $userRepository = new UserRepository($app['db']);
-                $user = $form_search->getData();
-                $user=$userRepository->findOneByLoginUser($user['value']);
-                if($user){
+                $user = $formSearch->getData();
+                $user = $userRepository->findOneByLoginUser($user['value']);
+                if ($user) {
                     return $app->redirect($app['url_generator']->generate('profile_view', ['id' => $user['id']]), 301);
-                }
-                else{
+                } else {
                     $app['session']->getFlashBag()->add(
                         'messages',
                         [
@@ -180,12 +172,11 @@ class HomeController implements ControllerProviderInterface
             }
         }
 
-
-
-        return $app['twig']->render('home/search.html.twig',
+        return $app['twig']->render(
+            'home/search.html.twig',
             [
-                'logged_user'=>$logged_user,
-                'form_search'=>$form_search->createView(),
+                'loggedUser' => $loggedUser,
+                'formSearch' => $formSearch->createView(),
             ]
         );
     }

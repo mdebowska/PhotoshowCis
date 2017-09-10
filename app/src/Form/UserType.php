@@ -14,7 +14,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Validator\Constraints as CustomAssert;
 
-
 /**
  * Class UserType.
  *
@@ -23,7 +22,8 @@ use Validator\Constraints as CustomAssert;
 class UserType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @param FormBuilderInterface $builder
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -59,11 +59,11 @@ class UserType extends AbstractType
                 ],
             ]
         );
-	$builder->add(
+        $builder->add(
             'password',
             RepeatedType::class,
             [
-		'type' => PasswordType::class,
+                'type' => PasswordType::class,
                 'invalid_message' => 'message.password_not_repeated',
                 'options' => array('attr' => array('class' => 'password-field')),
                 'required' => true,
@@ -73,13 +73,13 @@ class UserType extends AbstractType
                     new Assert\NotBlank(),
                     new Assert\Length(
                         [
-			    'groups' => ['user-default'],
+                            'groups' => ['user-default'],
                             'min' => 8,
                             'max' => 32,
                         ]
                     ),
                 ],
-        
+
             ]
         );
 
@@ -95,7 +95,7 @@ class UserType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank(
                         [
-                            'groups' => ['user-default']
+                            'groups' => ['user-default'],
                         ]
                     ),
                     new Assert\Length(
@@ -107,7 +107,7 @@ class UserType extends AbstractType
                     ),
                     new Assert\Email(
                         [
-                            'groups' => ['user-default']
+                            'groups' => ['user-default'],
                         ]
                     ),
                 ],
@@ -116,7 +116,7 @@ class UserType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -129,7 +129,7 @@ class UserType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getBlockPrefix()
     {

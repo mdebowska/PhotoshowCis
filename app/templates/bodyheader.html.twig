@@ -38,13 +38,13 @@
                     </div>
 
                     <div class="col-xs- form-inline margin-15 last-row-item">
-                        {% if logged_user is defined and logged_user|length %}
+                        {% if loggedUser is defined and loggedUser|length %}
                                 <span id="logged_as">
                                     {{ 'logged_as' | trans }}
                                 </span>
                                 <div class="" id="logged_as">
-                                    <a href="{{ url('profile_view', {'id':logged_user.id}) }}" title="{{ logged_user.login }}">
-                                        {{ logged_user.login }}
+                                    <a href="{{ url('profile_view', {'id':loggedUser.id}) }}" title="{{ loggedUser.login }}">
+                                        {{ loggedUser.login }}
                                         <i class="glyphicon glyphicon-user"></i>
                                     </a>
                                 </div>

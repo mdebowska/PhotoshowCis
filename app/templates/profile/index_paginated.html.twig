@@ -34,7 +34,7 @@
                                     </div>
                                 {#if admin#}
                                     <div class="col-md-2">
-                                        {% if is_granted('IS_AUTHENTICATED_FULLY') and (row.id==logged_user['id'] or is_granted('ROLE_ADMIN')) %}
+                                        {% if is_granted('IS_AUTHENTICATED_FULLY') and (row.id==loggedUser['id'] or is_granted('ROLE_ADMIN')) %}
                                         <div class="col-md-5 remove-padding">
                                             <a href="{{ url('profile_edit', {'id':row.id}) }}" class="btn btn-primary btn-xs">
                                                 <i class="glyphicon glyphicon-cog"></i>

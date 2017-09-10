@@ -3,13 +3,13 @@
  * Search type.
  */
 namespace Form;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 /**
  * Class SearchType.
@@ -19,7 +19,8 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 class SearchType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @param FormBuilderInterface $builder
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -30,10 +31,12 @@ class SearchType extends AbstractType
                 'label' => 'label.category ',
                 'required' => true,
                 'attr' => array('class' => 'form-control'),
-                'choices'=>$this->prepareCategoriesForChoices(),
+                'choices' => $this->prepareCategoriesForChoices(),
                 'constraints' => [
                     new Assert\NotBlank(
-                        ['groups' => ['search-default']]
+                        [
+                            'groups' => ['search-default'],
+                        ]
                     ),
                 ],
             ]
@@ -43,7 +46,7 @@ class SearchType extends AbstractType
             TextType::class,
             [
                 'label' => 'label.value',
-                'required'   => false,
+                'required' => false,
                 'attr' => [
                 ],
                 'constraints' => [
@@ -51,8 +54,9 @@ class SearchType extends AbstractType
             ]
         );
     }
+
     /**
-     * {@inheritdoc}
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -62,8 +66,9 @@ class SearchType extends AbstractType
             ]
         );
     }
+
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getBlockPrefix()
     {
@@ -71,6 +76,9 @@ class SearchType extends AbstractType
     }
 
 
+    /**
+     * @return array
+     */
     protected function prepareCategoriesForChoices()
     {
         $categories = ['photo', 'user'];
@@ -82,5 +90,4 @@ class SearchType extends AbstractType
 
         return $choices;
     }
-
 }

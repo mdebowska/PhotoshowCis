@@ -5,13 +5,10 @@
 namespace Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-//use Validator\Constraints as CustomAssert;
 
 /**
  * Class UserdataType.
@@ -21,7 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UserdataType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @param FormBuilderInterface $builder
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -35,15 +33,10 @@ class UserdataType extends AbstractType
                     'max_length' => 45,
                 ],
                 'constraints' => [
-//                    new Assert\NotBlank(
-//                        [
-//                            'groups' => ['profile-default']
-//                        ]
-//                    ),
                     new Assert\Length(
                         [
                             'max' => 45,
-                            'groups' => ['profile-default']
+                            'groups' => ['profile-default'],
                         ]
                     ),
                 ],
@@ -59,11 +52,6 @@ class UserdataType extends AbstractType
                     'max_length' => 45,
                 ],
                 'constraints' => [
-//                    new Assert\NotBlank(
-//                        [
-//                            'groups' => ['profile-default']
-//                        ]
-//                    ),
                     new Assert\Length(
                         [
                             'groups' => ['profile-default'],
@@ -76,7 +64,7 @@ class UserdataType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -89,7 +77,7 @@ class UserdataType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getBlockPrefix()
     {
