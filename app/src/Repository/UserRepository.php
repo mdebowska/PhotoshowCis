@@ -147,17 +147,18 @@ class UserRepository
     }
 
     /**
+     * Save Empty Data
      * @param array $user User
      * @return int
      */
-    public function saveEmptyData($user)  //
+    public function saveEmptyData($user)
     {
 
         $userdata['userId'] = $user['id'];
         $userdata['name'] = '';
         $userdata['surname'] = '';
 
-        return $this->db->insert('userdata', $userdata); //$this->db->insert('user', $user)&&
+        return $this->db->insert('userdata', $userdata);
     }
 
 

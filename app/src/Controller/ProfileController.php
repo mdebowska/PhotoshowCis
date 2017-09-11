@@ -7,15 +7,11 @@ namespace Controller;
 
 use Form\UserType;
 use Form\UserdataType;
-use Form\ProfileType;
-use Form\PhotoType;
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Repository\ProfileRepository;
 use Repository\PhotoRepository;
-use Repository\TagRepository;
-use Repository\RatingRepository;
 use Repository\UserRepository;
 use Repository\UserdataRepository;
 use Symfony\Component\Form\Extension\Core\Type\FormType;

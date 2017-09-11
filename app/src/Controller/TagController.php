@@ -6,10 +6,6 @@
 namespace Controller;
 
 use Form\TagType;
-//use Repository\PhotoRepository;
-use Repository\ProfileRepository;
-use Repository\RatingRepository;
-use Repository\CommentRepository;
 use Repository\UserRepository;
 use Repository\TagRepository;
 use Silex\Api\ControllerProviderInterface;
@@ -72,28 +68,6 @@ class TagController implements ControllerProviderInterface
                 'loggedUser' => $loggedUser,
                 'tags' => $tags,
             ]
-        );
-    }
-
-
-    /**
-     * Tagaction.
-     *
-     * @param \Silex\Application $app Silex application
-     * @param int $id Element Id
-     * @param int $page Current page number
-     * @return \Symfony\Component\HttpFoundation\Response HTTP Response
-     */
-
-    public function tagAction(Application $app, $id, $page = 1)
-    {
-        $tagRepository = new TagRepository($app['db']);
-        $tags = $tagRepository->findAllPaginated($page);
-
-        return $app['twig']->render(
-            'tag/index.html.twig',
-
-            ['tags' => $tags]
         );
     }
 

@@ -6,7 +6,6 @@ namespace Repository;
 
 use Silex\Application;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
 use Utils\Paginator;
 
 /**
@@ -223,5 +222,6 @@ class TagRepository
                 }
             }
         }
+        throw new \InvalidArgumentException('Invalid parameter type');
     }
 }

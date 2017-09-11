@@ -1,4 +1,7 @@
 <?php
+/**
+ * Controllers
+ */
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,7 +14,7 @@ use Controller\PhotoController;
 use Controller\HomeController;
 use Controller\AuthController;
 use Controller\TagController;
-//use Controller\SearchController;
+use Controller\CommentController;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 //
@@ -23,6 +26,7 @@ $app->mount('/profile', new ProfileController());
 $app->mount('/photo', new PhotoController());
 $app->mount('/auth', new AuthController());
 $app->mount('/tag', new TagController());
+$app->mount('/comment', new CommentController());
 //$app->mount('/search', new SearchController());
 
 $app->get('/', function () use ($app) {

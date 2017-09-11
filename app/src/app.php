@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Application
+ */
 use Silex\Application;
 use Silex\Provider\AssetServiceProvider;
 use Silex\Provider\DoctrineServiceProvider;

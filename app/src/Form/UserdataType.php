@@ -18,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UserdataType extends AbstractType
 {
     /**
+     * Build Form
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -64,6 +65,7 @@ class UserdataType extends AbstractType
     }
 
     /**
+     * Configure Options
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -77,6 +79,7 @@ class UserdataType extends AbstractType
     }
 
     /**
+     * Get Block Prefix
      * @return string
      */
     public function getBlockPrefix()

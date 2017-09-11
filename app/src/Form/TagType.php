@@ -19,6 +19,7 @@ use Validator\Constraints as CustomAssert;
 class TagType extends AbstractType
 {
     /**
+     * Build Form
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -58,6 +59,7 @@ class TagType extends AbstractType
     }
 
     /**
+     * Configure Options
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -71,6 +73,7 @@ class TagType extends AbstractType
     }
 
     /**
+     * Get Block Prefix
      * @return string
      */
     public function getBlockPrefix()

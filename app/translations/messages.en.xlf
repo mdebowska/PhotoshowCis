@@ -359,10 +359,15 @@
                 <source>message.it_is_not_your_photo</source>
                 <target>It's not your photo.</target>
             </trans-unit>
-	    <trans-unit id="message.it_is_not_your_profile">
+    	    <trans-unit id="message.it_is_not_your_profile">
                 <source>message.it_is_not_your_profile</source>
                 <target>It's not your profile.</target>
             </trans-unit>
+    	    <trans-unit id="message.you_are_not_an_admin">
+                <source>message.you_are_not_an_admin</source>
+                <target>You are not an admin.</target>
+            </trans-unit>
+
 	    <trans-unit id="message.password_not_repeated">
                 <source>message.password_not_repeated</source>
                 <target>Bad password-repeated.</target>

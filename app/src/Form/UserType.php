@@ -22,6 +22,7 @@ use Validator\Constraints as CustomAssert;
 class UserType extends AbstractType
 {
     /**
+     * Build Form
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -116,7 +117,9 @@ class UserType extends AbstractType
     }
 
     /**
+     * Configure Options
      * @param OptionsResolver $resolver
+     * return void
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -129,6 +132,7 @@ class UserType extends AbstractType
     }
 
     /**
+     * Get Block Prefix
      * @return string
      */
     public function getBlockPrefix()

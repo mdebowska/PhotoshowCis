@@ -15,6 +15,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 class UniqueLoginValidator extends ConstraintValidator
 {
     /**
+     * Validate
      * @param mixed $value
      * @param Constraint $constraint
      */

@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class SearchType extends AbstractType
 {
     /**
+     * Build Form
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -56,6 +57,7 @@ class SearchType extends AbstractType
     }
 
     /**
+     * Configure Options
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -68,6 +70,7 @@ class SearchType extends AbstractType
     }
 
     /**
+     * Get Block Prefix
      * @return string
      */
     public function getBlockPrefix()
@@ -77,6 +80,7 @@ class SearchType extends AbstractType
 
 
     /**
+     * Prepare Categories For Choices
      * @return array
      */
     protected function prepareCategoriesForChoices()

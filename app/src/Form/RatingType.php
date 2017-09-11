@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class RatingType extends AbstractType
 {
     /**
+     * Build Form
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -43,6 +44,7 @@ class RatingType extends AbstractType
     }
 
     /**
+     * Configure Options
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -56,6 +58,7 @@ class RatingType extends AbstractType
     }
 
     /**
+     * Get Block Prefix
      * @return string
      */
     public function getBlockPrefix()
@@ -64,6 +67,7 @@ class RatingType extends AbstractType
     }
 
     /**
+     * Prepare Values For Choices
      * @return array
      */
     protected function prepareValuesForChoices()

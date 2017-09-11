@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 class PhotoType extends AbstractType
 {
     /**
+     * Build Form
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -93,6 +94,7 @@ class PhotoType extends AbstractType
     }
 
     /**
+     * Configure Options
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -106,6 +108,7 @@ class PhotoType extends AbstractType
     }
 
     /**
+     * Get Block Prefix
      * @return string
      */
     public function getBlockPrefix()
@@ -114,6 +117,7 @@ class PhotoType extends AbstractType
     }
 
     /**
+     * Prepare Tags For Choices
      * @param $tagRepository
      * @return array
      */

@@ -360,6 +360,10 @@
                 <source>message.it_is_not_your_profile</source>
                 <target>To nie twój profil.</target>
             </trans-unit>
+    	    <trans-unit id="message.you_are_not_an_admin">
+                <source>message.you_are_not_an_admin</source>
+                <target>Nie jesteś administratorem.</target>
+            </trans-unit>
 	    <trans-unit id="message.password_not_repeated">
                 <source>message.password_not_repeated</source>
                 <target>Źle powtórzone hasło.</target>

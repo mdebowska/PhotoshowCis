@@ -110,9 +110,6 @@ class PhotoController implements ControllerProviderInterface
         $ratingRepository = new RatingRepository($app['db']);
         $commentRepository = new CommentRepository($app['db']);
 
-        $token = $app['security.token_storage']->getToken();
-
-
         $photo = $photoRepository->findOneById($id);
         if (!$photo) {
             $app['session']->getFlashBag()->add(
@@ -311,11 +308,9 @@ class PhotoController implements ControllerProviderInterface
      *
      * @param \Silex\Application $app Silex application
      * @param int $id Element Id
-     * @param \Symfony\Component\HttpFoundation\Request $request HTTP Request
-     * @param int $page Current page number
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
-    public function tagAction(Application $app, $id, Request $request, $page = 1) //public function tagAction(Application $app, $tags)
+    public function tagAction(Application $app, $id) //public function tagAction(Application $app, $tags)
     {
         $userRepository = new UserRepository($app['db']);
         $loggedUser = $userRepository->getLoggedUser($app);
@@ -370,7 +365,7 @@ class PhotoController implements ControllerProviderInterface
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $photoRepository->save($form->getData(), '');
+                $photoRepository->save($form->getData());
 
                 $app['session']->getFlashBag()->add(
                     'messages',
@@ -558,9 +553,6 @@ class PhotoController implements ControllerProviderInterface
         $loggedUser = $userRepository->getLoggedUser($app);
         $id = $loggedUser['id'];
         $photo = [];
-
-        $token = $app['security.token_storage']->getToken();
-
 
         if (!$loggedUser['id']) {
             return $app->redirect($app['url_generator']->generate('home_index', 301));

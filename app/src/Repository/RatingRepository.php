@@ -5,7 +5,6 @@
 namespace Repository;
 
 use Doctrine\DBAL\Connection;
-use Utils\Paginator;
 
 /**
  * Class RatingRepository.
@@ -15,6 +14,10 @@ use Utils\Paginator;
 class RatingRepository
 {
 
+    /**
+     * Database
+     * @var Connection
+     */
     protected $db;
 
     /**

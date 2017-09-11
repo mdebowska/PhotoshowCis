@@ -15,6 +15,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 class UniqueTagValidator extends ConstraintValidator
 {
     /**
+     * Validate
      * @param mixed $value
      * @param Constraint $constraint
      */

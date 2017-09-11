@@ -19,6 +19,8 @@ class AuthController implements ControllerProviderInterface
 {
 
     /**
+     * Connect
+     *
      * @param Application $app
      * @return mixed
      */

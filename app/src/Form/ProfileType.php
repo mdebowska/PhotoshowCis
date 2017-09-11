@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ProfileType extends AbstractType
 {
     /**
+     * Build Form
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -153,6 +154,7 @@ class ProfileType extends AbstractType
     }
 
     /**
+     * Configure Options
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -166,6 +168,7 @@ class ProfileType extends AbstractType
     }
 
     /**
+     * Get Block Prefix
      * @return string
      */
     public function getBlockPrefix()

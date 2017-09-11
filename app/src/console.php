@@ -1,4 +1,8 @@
 <?php
+/**
+ * Console settings
+ *
+ */
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;

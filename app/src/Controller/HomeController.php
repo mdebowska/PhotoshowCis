@@ -47,11 +47,10 @@ class HomeController implements ControllerProviderInterface
     /**
      * Index action.
      * @param \Silex\Application $app Silex application
-     * @param \Symfony\Component\HttpFoundation\Request $request HTTP Request
      * @param int $page Current page number
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
-    public function indexAction(Application $app, Request $request, $page = 1)
+    public function indexAction(Application $app, $page = 1)
     {
         $userRepository = new UserRepository($app['db']);
         $loggedUser = $userRepository->getLoggedUser($app);
